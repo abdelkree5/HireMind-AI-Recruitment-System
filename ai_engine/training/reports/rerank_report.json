@@ -1,0 +1,19 @@
+{
+  "top_k": 5,
+  "base_bi_encoder": {
+    "top1_accuracy": 0.36,
+    "mrr": 0.5697395197395199
+  },
+  "cross_encoder_only": {
+    "top1_accuracy": 0.22666666666666666,
+    "mrr": 0.4453333333333334
+  },
+  "with_cross_encoder_rerank": {
+    "top1_accuracy": 0.38666666666666666,
+    "mrr": 0.5578888888888889
+  },
+  "delta": {
+    "top1_accuracy": 0.026666666666666672,
+    "mrr": -0.011850630850630983
+  }
+}

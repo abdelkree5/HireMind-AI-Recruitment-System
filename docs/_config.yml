@@ -1,0 +1,32 @@
+theme: jekyll-theme-cayman
+title: HireMind AI Recruitment Platform
+description: AI-powered recruitment system with CV analysis, semantic matching, and AI interviews
+show_downloads: false
+google_analytics: false
+
+# GitHub Pages settings
+github:
+  is_project_page: true
+  repository_nwo: yourusername/HireMind
+  owner_url: https://github.com/yourusername
+  owner_gravatar: null
+  zip_url: https://github.com/yourusername/HireMind/archive/refs/heads/main.zip
+  tar_url: https://github.com/yourusername/HireMind/archive/refs/heads/main.tar.gz
+
+# Navigation
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Plugins
+plugins:
+  - jekyll-github-metadata
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Build
+markdown: kramdown
+highlighter: rouge

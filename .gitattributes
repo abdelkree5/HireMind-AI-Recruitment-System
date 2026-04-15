@@ -1,0 +1,49 @@
+# Git attributes for cross-platform compatibility
+
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Python files
+*.py text eol=lf
+*.pyc binary
+
+# JavaScript/Node files
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Windows-specific
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.p7c binary
+*.docx binary
+*.xlsx binary
+
+# Compiled files
+*.pyo binary
+*.pyc binary
+*.so binary
+*.egg-info binary
+
+# Git files
+.gitignore text eol=lf
+.gitattributes text eol=lf

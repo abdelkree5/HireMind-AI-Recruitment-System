@@ -1,0 +1,18 @@
+[
+  {
+    "title": "AI Engineer",
+    "description": "بناء نظام مطابقة CVs مع الوظائف باستخدام NLP و embeddings.",
+    "required_skills": [
+      "python",
+      "nlp",
+      "sentence-transformers",
+      "pytorch",
+      "scikit-learn"
+    ]
+  },
+  {
+    "title": "Full Stack React Developer",
+    "description": "تطوير واجهات RTL ودمج الـ APIs ولوحات التحكم.",
+    "required_skills": ["react", "javascript", "css", "rest api", "git"]
+  }
+]

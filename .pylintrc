@@ -1,0 +1,33 @@
+[MASTER]
+disable=
+    missing-docstring,
+    too-few-public-methods,
+    too-many-arguments,
+    fixme,
+
+[MESSAGES CONTROL]
+disable=
+    C0111,  # missing-docstring
+    C0103,  # invalid-name
+    R0913,  # too-many-arguments
+    R0914,  # too-many-locals
+    W0212,  # protected-access
+
+[FORMAT]
+max-line-length = 120
+indent-string = '    '
+
+[DESIGN]
+max-locals = 15
+max-branches = 12
+max-statements = 50
+
+[VARIABLES]
+dummy-variables-rgx = _+$|^_
+
+[TYPECHECK]
+ignore-mixin-members = yes
+ignored-modules = numpy,pandas,scipy
+
+[LOGGING]
+logging-format-style = new

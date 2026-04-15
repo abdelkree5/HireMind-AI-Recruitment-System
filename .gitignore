@@ -1,0 +1,113 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.python-version
+*.egg-info
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+*.code-workspace
+
+# Node.js / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+dist/
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+.tox/
+pytest.html
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+db.sqlite3
+
+# ML Models & Checkpoints
+checkpoints/
+models/
+*.pth
+*.pt
+*.h5
+*.pkl
+*.joblib
+
+# Build & Temp
+build/
+dist/
+.egg-info/
+temp/
+tmp/
+*.tmp
+
+# OS specific
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local development
+.venv/
+.env
+local_config.json
+*.ipynb_checkpoints
+.jupyter
+
+# Large data files (if needed)
+*.csv
+*.parquet
+data/raw/
+data/processed/
+
+# IDE plugins
+.vscode/extensions
+
+# Frontend build artifacts
+frontend/dist/
+frontend/build/
+
+# Macros/Lock files
+poetry.lock
+Pipfile.lock
+
+# Archives
+*.zip
+*.tar.gz
+*.rar

@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family:
+      "Manrope",
+      system-ui,
+      -apple-system,
+      Segoe UI,
+      Roboto,
+      sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply min-h-screen bg-slate-50 text-slate-900 antialiased;
+    margin: 0;
+    background:
+      radial-gradient(
+        circle at 10% 15%,
+        rgba(251, 146, 60, 0.14),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 90% 10%,
+        rgba(249, 115, 22, 0.12),
+        transparent 24%
+      ),
+      #f8fafc;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+  }
+
+  @keyframes floatPulse {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .float-pulse {
+    animation: floatPulse 2.8s ease-in-out infinite;
+  }
+}

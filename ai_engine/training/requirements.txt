@@ -1,0 +1,5 @@
+datasets>=4.8.0
+pandas>=2.2.0
+sentence-transformers>=3.4.0
+torch>=2.4.0
+numpy>=2.2.0
