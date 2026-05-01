@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.app.routes import auth, chat, cv, jobs
+from backend.app.routes import auth, chat, cv, jobs, tasks
 from backend.app.services.embedding_service import get_embedding_runtime_info, get_embedding_model
 from backend.app.services.auth_service import bootstrap_auth
 from backend.app.services.logger_service import build_log_message
@@ -21,6 +21,7 @@ app.include_router(cv.router, prefix="/api/cv", tags=["CV"])
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 app.include_router(jobs.router, prefix="/api/jobs", tags=["Jobs"])
 app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
+app.include_router(tasks.router, prefix="/api/tasks", tags=["Tasks"])
 
 
 @app.on_event("startup")
