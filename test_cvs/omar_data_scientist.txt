@@ -1,0 +1,16 @@
+Omar Ali
+Data Scientist & Machine Learning Engineer
+Email: omar@example.com
+
+Profile
+Data Scientist with a master's degree in Computer Science. Proficient in developing predictive models and analyzing large datasets.
+
+Experience
+Data Scientist | Data Minds Inc
+- Built machine learning models for customer churn prediction using Scikit-Learn and XGBoost.
+- Performed NLP tasks including sentiment analysis with HuggingFace Transformers and PyTorch.
+- Analyzed data using Pandas, NumPy, and SQL.
+- Visualized results with Matplotlib and Tableau.
+
+Skills
+Python, Machine Learning, PyTorch, Scikit-Learn, NLP, Transformers, Pandas, SQL, Data Visualization

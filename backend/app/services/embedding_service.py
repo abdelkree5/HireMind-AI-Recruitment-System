@@ -8,10 +8,8 @@ from typing import Literal
 import json
 import sqlite3
 import numpy as np
-from langdetect import detect
 
 BASE_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-ARABIC_MODEL_NAME = "CAMeL-Lab/bert-base-arabic-camelbert-mix"
 FINETUNED_MODEL_DIR = Path(__file__).resolve().parents[3] / "ai_engine" / "training" / "artifacts"
 EMBEDDING_DIMENSIONS = 256
 
@@ -70,14 +68,6 @@ def get_embedding_model():
         _EmbeddingRuntimeState.model_source = "fallback"
         return FallbackEmbeddingModel()
 
-@lru_cache(maxsize=1)
-def get_arabic_embedding_model():
-    try:
-        from sentence_transformers import SentenceTransformer
-        return SentenceTransformer(ARABIC_MODEL_NAME)
-    except Exception:
-        return FallbackEmbeddingModel()
-
 
 CACHE_DB_PATH = Path("database/embeddings_cache.db")
 
@@ -116,18 +106,7 @@ def _cached_embedding(text: str) -> tuple[float, ...]:
     if cached is not None:
         return cached
 
-    lang = "en"
-    try:
-        if len(text.strip()) > 10:
-            lang = detect(text)
-    except Exception:
-        pass
-
-    if lang == "ar":
-        model = get_arabic_embedding_model()
-    else:
-        model = get_embedding_model()
-
+    model = get_embedding_model()
     vector = np.asarray(model.encode([text], normalize_embeddings=True))[0]
     vec_tuple = tuple(float(x) for x in vector)
     

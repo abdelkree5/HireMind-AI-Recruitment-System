@@ -1,0 +1,16 @@
+Nour Mostafa
+Mobile App Developer (Flutter)
+Email: nour@example.com
+
+Objective
+Mobile application developer specialized in Flutter, striving to develop engaging applications for both Android and iOS platforms.
+
+Experience
+Mobile Developer | Appify
+- Developed cross-platform applications using the Flutter framework and Dart.
+- Integrated applications with Firebase databases.
+- Managed application state using Provider and Riverpod.
+- Deployed applications to Google Play and the App Store.
+
+Skills
+Flutter, Dart, Firebase, RESTful APIs, UI/UX, Git

@@ -1,0 +1,16 @@
+Mahmoud Hassan
+DevOps & Cloud Engineer
+Email: mahmoud@example.com
+
+Summary
+Experienced DevOps engineer focused on cloud infrastructure, CI/CD, and automation.
+
+Experience
+Cloud Engineer | CloudTech
+- Provisioned infrastructure on AWS using Terraform.
+- Managed Kubernetes clusters and deployed microservices.
+- Automated testing and deployment workflows via GitHub Actions.
+- Monitored systems with Prometheus and Grafana.
+
+Skills
+AWS, Kubernetes, Docker, Terraform, CI/CD, GitHub Actions, Linux, Bash, Prometheus

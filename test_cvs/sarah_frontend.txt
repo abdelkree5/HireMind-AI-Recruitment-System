@@ -1,0 +1,16 @@
+Sarah Ahmed
+Frontend Web Developer
+Email: sarah@example.com
+
+Summary
+Frontend developer with 2 years of experience in designing and developing modern, responsive web applications using React and Vite.
+
+Experience
+Frontend Developer | Web Soft
+- Developed user interfaces using React.js and TailwindCSS.
+- Consumed APIs and integrated them with the interactive UI.
+- Optimized application performance for speed across all devices.
+- Wrote tests using Jest and RTL.
+
+Skills
+React, JavaScript, HTML, CSS, TailwindCSS, Vite, Redux, Git

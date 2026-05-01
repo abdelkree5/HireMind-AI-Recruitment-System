@@ -21,9 +21,9 @@ def extract_candidate_profile_text(file_bytes: bytes, filename: str) -> tuple[st
     skills = extractor.extract(cleaned)
 
     # Lightweight extraction by section hints.
-    experience_parts = _section_text(cleaned, ["experience", "employment", "work history", "خبرة", "خبرات", "الخبرة المهنية", "الخبرات"])
-    projects_parts = _section_text(cleaned, ["projects", "project", "portfolio", "مشاريع", "مشروع", "أعمال", "مشاريع سابقة"])
-    summary_parts = _section_text(cleaned, ["summary", "profile", "about", "objective", "ملخص", "نبذة", "عني", "الهدف المهني"])
+    experience_parts = _section_text(cleaned, ["experience", "employment", "work history"])
+    projects_parts = _section_text(cleaned, ["projects", "project", "portfolio"])
+    summary_parts = _section_text(cleaned, ["summary", "profile", "about", "objective"])
 
     candidate_profile_text = " ".join(
         [

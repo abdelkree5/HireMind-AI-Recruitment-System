@@ -1,0 +1,17 @@
+Ahmed Mohamed
+Full Stack / Backend Developer
+Location: Cairo, Egypt
+Email: ahmed@example.com
+
+Summary
+Passionate backend developer with 4 years of experience building scalable microservices and APIs using Python, FastAPI, and PostgreSQL.
+
+Experience
+Senior Backend Engineer | Tech Solutions
+- Designed and developed high-performance REST APIs using FastAPI and Django.
+- Managed PostgreSQL database optimizations and migrations.
+- Implemented background tasks using Celery and Redis.
+- Dockerized applications and set up CI/CD pipelines.
+
+Skills
+Python, FastAPI, Django, PostgreSQL, Docker, Redis, REST APIs, Git, Linux
