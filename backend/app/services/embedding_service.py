@@ -5,6 +5,8 @@ from hashlib import sha256
 from pathlib import Path
 from typing import Literal
 
+import json
+import sqlite3
 import numpy as np
 
 BASE_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
@@ -67,11 +69,49 @@ def get_embedding_model():
         return FallbackEmbeddingModel()
 
 
+CACHE_DB_PATH = Path("database/embeddings_cache.db")
+
+def _init_cache():
+    try:
+        CACHE_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with sqlite3.connect(CACHE_DB_PATH) as conn:
+            conn.execute("CREATE TABLE IF NOT EXISTS embeddings (hash TEXT PRIMARY KEY, vector TEXT)")
+    except Exception:
+        pass
+
+_init_cache()
+
+def _get_from_cache(text_hash: str) -> tuple[float, ...] | None:
+    try:
+        with sqlite3.connect(CACHE_DB_PATH) as conn:
+            cursor = conn.execute("SELECT vector FROM embeddings WHERE hash = ?", (text_hash,))
+            row = cursor.fetchone()
+            if row:
+                return tuple(json.loads(row[0]))
+    except Exception:
+        pass
+    return None
+
+def _save_to_cache(text_hash: str, vector: tuple[float, ...]):
+    try:
+        with sqlite3.connect(CACHE_DB_PATH) as conn:
+            conn.execute("INSERT OR REPLACE INTO embeddings (hash, vector) VALUES (?, ?)", (text_hash, json.dumps(vector)))
+    except Exception:
+        pass
+
 @lru_cache(maxsize=4096)
 def _cached_embedding(text: str) -> tuple[float, ...]:
+    text_hash = sha256(text.encode("utf-8")).hexdigest()
+    cached = _get_from_cache(text_hash)
+    if cached is not None:
+        return cached
+
     model = get_embedding_model()
     vector = np.asarray(model.encode([text], normalize_embeddings=True))[0]
-    return tuple(float(x) for x in vector)
+    vec_tuple = tuple(float(x) for x in vector)
+    
+    _save_to_cache(text_hash, vec_tuple)
+    return vec_tuple
 
 
 def embed_text(text: str) -> np.ndarray:
