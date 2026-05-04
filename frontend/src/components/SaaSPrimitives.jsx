@@ -41,9 +41,18 @@ export function StatCard({ label, value, tone = "brand" }) {
   );
 }
 
-export function Badge({ children }) {
+export function Badge({ children, variant = "brand", className = "" }) {
+  const variants = {
+    brand: "bg-brand-50 text-brand-700",
+    success: "bg-emerald-50 text-emerald-700",
+    amber: "bg-amber-50 text-amber-700",
+    info: "bg-sky-50 text-sky-700",
+  };
+
   return (
-    <span className="inline-flex rounded-full bg-brand-100 px-2.5 py-1 text-xs font-semibold text-brand-700">
+    <span
+      className={`inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${variants[variant]} ${className}`}
+    >
       {children}
     </span>
   );
@@ -92,28 +101,41 @@ export function Toast({ type = "success", message, onClose }) {
   );
 }
 
-export function Modal({ open, title, description, onCancel, onConfirm }) {
+export function Modal({
+  open,
+  title,
+  description,
+  onCancel,
+  onConfirm,
+  confirmText = "Confirm",
+  children,
+}) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/35 p-4">
-      <div className="w-full max-w-md rounded-3xl border border-white/80 bg-white p-5 shadow-panel">
-        <h3 className="text-lg font-extrabold text-slate-900">{title}</h3>
-        <p className="mt-2 text-sm text-slate-600">{description}</p>
-        <div className="mt-4 flex justify-end gap-2">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+      <div className="w-full max-w-lg rounded-[2rem] border border-white/40 bg-white p-6 shadow-2xl">
+        <div className="mb-4">
+          <h3 className="text-xl font-black text-slate-900">{title}</h3>
+          <p className="mt-1 text-sm text-slate-600">{description}</p>
+        </div>
+
+        <div className="max-h-[70vh] overflow-y-auto">{children}</div>
+
+        <div className="mt-6 flex justify-end gap-3">
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
+            className="rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white"
+            className="rounded-2xl bg-brand-500 px-5 py-2.5 text-sm font-bold text-white shadow-soft transition hover:bg-brand-600 hover:shadow-brand-100"
           >
-            Confirm
+            {confirmText}
           </button>
         </div>
       </div>

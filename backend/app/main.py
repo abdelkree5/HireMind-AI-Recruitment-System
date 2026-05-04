@@ -2,10 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.app.routes import auth, chat, cv, jobs, tasks, ws
-from backend.app.services.embedding_service import get_embedding_runtime_info, get_embedding_model
+from ai_engine.embeddings import get_embedding_runtime_info, get_embedding_model
 from backend.app.services.auth_service import bootstrap_auth
 from backend.app.services.logger_service import build_log_message
-from backend.app.services.recruitment_db import init_recruitment_db
+from database.init_db import init_recruitment_db
 
 app = FastAPI(title="Hire-Mind API", version="0.1.0")
 
@@ -27,7 +27,6 @@ app.include_router(ws.router, prefix="/ws", tags=["WebSocket"])
 
 @app.on_event("startup")
 def warmup_models() -> None:
-    # بنحمّل الموديل مرة واحدة عند بدء السيرفر لتقليل زمن أول request.
     init_recruitment_db()
     bootstrap_auth()
     get_embedding_model()

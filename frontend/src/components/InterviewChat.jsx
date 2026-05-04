@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   answerInterview,
   getInterviewReport,
@@ -26,6 +26,13 @@ export default function InterviewChat({ applicationId }) {
   });
 
   const disabled = useMemo(() => busy || !sessionId, [busy, sessionId]);
+
+  // Auto-start if applicationId is provided
+  useEffect(() => {
+    if (applicationId && !sessionId && !busy) {
+      handleStart();
+    }
+  }, [applicationId]);
 
   async function handleStart() {
     if (!applicationId) {

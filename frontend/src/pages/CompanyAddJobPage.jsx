@@ -2,16 +2,39 @@ import { useState } from "react";
 import { Badge, Panel } from "../components/SaaSPrimitives";
 
 function toList(value) {
+  if (!value) return [];
   return value
     .split(/,|\n/)
     .map((item) => item.trim())
     .filter(Boolean);
 }
 
+const DOMAINS = [
+  "Backend",
+  "Frontend",
+  "Full Stack",
+  "DevOps",
+  "Data",
+  "AI_ML",
+  "Mobile",
+  "UI/UX",
+  "QA",
+  "Security",
+  "Product",
+  "General",
+];
+
+const EXPERIENCE_LEVELS = ["Junior", "Mid", "Senior", "Lead", "Principal"];
+
 const INITIAL = {
   title: "",
   description: "",
   skills: "",
+  responsibilities: "",
+  preferred_skills: "",
+  tools: "",
+  experience_level: "Mid",
+  domain: "General",
 };
 
 export default function CompanyAddJobPage({ onCreateJob }) {
@@ -29,6 +52,11 @@ export default function CompanyAddJobPage({ onCreateJob }) {
         title: form.title,
         description: form.description,
         required_skills: toList(form.skills),
+        responsibilities: toList(form.responsibilities),
+        preferred_skills: toList(form.preferred_skills),
+        tools: toList(form.tools),
+        experience_level: form.experience_level.toLowerCase(),
+        domain: form.domain.toLowerCase(),
       });
       setForm(INITIAL);
     } catch (submitError) {
@@ -38,64 +66,143 @@ export default function CompanyAddJobPage({ onCreateJob }) {
     }
   }
 
+  const handleChange = (field) => (event) => {
+    setForm((prev) => ({ ...prev, [field]: event.target.value }));
+  };
+
   return (
     <div className="space-y-4">
       <Panel
         title="Create New Job"
         subtitle="Publish job requirements with a clean, fast workflow."
       >
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-slate-700">
-              Title
-            </span>
-            <input
-              value={form.title}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, title: event.target.value }))
-              }
-              required
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-              placeholder="Senior Backend Engineer"
-            />
-          </label>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-semibold text-slate-700">
+                Title
+              </span>
+              <input
+                value={form.title}
+                onChange={handleChange("title")}
+                required
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                placeholder="Senior Backend Engineer"
+              />
+            </label>
+
+            <div className="grid gap-4 grid-cols-2">
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-semibold text-slate-700">
+                  Experience Level
+                </span>
+                <select
+                  value={form.experience_level}
+                  onChange={handleChange("experience_level")}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                >
+                  {EXPERIENCE_LEVELS.map((lvl) => (
+                    <option key={lvl} value={lvl}>
+                      {lvl}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-semibold text-slate-700">
+                  Domain
+                </span>
+                <select
+                  value={form.domain}
+                  onChange={handleChange("domain")}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                >
+                  {DOMAINS.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </div>
 
           <label className="block">
             <span className="mb-1.5 block text-sm font-semibold text-slate-700">
               Description
             </span>
             <textarea
-              rows="6"
+              rows="4"
               value={form.description}
-              onChange={(event) =>
-                setForm((prev) => ({
-                  ...prev,
-                  description: event.target.value,
-                }))
-              }
+              onChange={handleChange("description")}
               required
               className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-              placeholder="Describe responsibilities, team context, and outcomes."
+              placeholder="Describe team context and outcomes."
             />
           </label>
 
           <label className="block">
             <span className="mb-1.5 block text-sm font-semibold text-slate-700">
-              Required skills (comma separated)
+              Responsibilities (one per line)
+            </span>
+            <textarea
+              rows="3"
+              value={form.responsibilities}
+              onChange={handleChange("responsibilities")}
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+              placeholder="Design APIs&#10;Optimize performance"
+            />
+          </label>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-semibold text-slate-700">
+                Required skills (comma separated)
+              </span>
+              <input
+                value={form.skills}
+                onChange={handleChange("skills")}
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                placeholder="Python, FastAPI, PostgreSQL"
+              />
+            </label>
+
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-semibold text-slate-700">
+                Preferred skills (comma separated)
+              </span>
+              <input
+                value={form.preferred_skills}
+                onChange={handleChange("preferred_skills")}
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                placeholder="Docker, Redis"
+              />
+            </label>
+          </div>
+
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-semibold text-slate-700">
+              Tools (comma separated)
             </span>
             <input
-              value={form.skills}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, skills: event.target.value }))
-              }
+              value={form.tools}
+              onChange={handleChange("tools")}
               className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-              placeholder="Python, FastAPI, PostgreSQL"
+              placeholder="Jira, Git, AWS"
             />
           </label>
 
           <div className="flex flex-wrap gap-2">
             {toList(form.skills).map((skill) => (
-              <Badge key={skill}>{skill}</Badge>
+              <Badge key={skill} variant="brand">
+                {skill}
+              </Badge>
+            ))}
+            {toList(form.preferred_skills).map((skill) => (
+              <Badge key={skill} variant="amber">
+                {skill} (Preferred)
+              </Badge>
             ))}
           </div>
 
@@ -115,3 +222,4 @@ export default function CompanyAddJobPage({ onCreateJob }) {
     </div>
   );
 }
+

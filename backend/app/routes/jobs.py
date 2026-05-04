@@ -142,17 +142,36 @@ async def apply_to_posted_job(
 async def apply_cv_only(
     job_id: str = Form(...),
     file: UploadFile = File(...),
+    confirmed_skills: str | None = Form(None),
 ) -> dict:
     if not file.filename:
         raise HTTPException(status_code=400, detail="File is required")
 
     try:
         file_bytes = await file.read()
-        return recruitment_service.apply_to_job_cv_only(job_id, file_bytes, file.filename)
+        confirmed_list = json.loads(confirmed_skills) if confirmed_skills else None
+        return recruitment_service.apply_to_job_cv_only(
+            job_id, file_bytes, file.filename, confirmed_skills=confirmed_list
+        )
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except Exception as exc:  # pragma: no cover - defensive API fallback
         raise HTTPException(status_code=500, detail=f"Apply pipeline failed: {exc}") from exc
+
+
+@router.post("/pre-match")
+async def pre_match_cv(
+    job_id: str = Form(...),
+    file: UploadFile = File(...),
+) -> dict:
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="File is required")
+
+    try:
+        file_bytes = await file.read()
+        return recruitment_service.pre_match_report(job_id, file_bytes, file.filename)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 @router.put("/posted/{job_id}", response_model=PostedJob)

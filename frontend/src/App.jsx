@@ -10,6 +10,7 @@ import {
   getStoredAuthSession,
   listPostedJobs,
   logoutAccount,
+  preMatchCv,
   seedRealisticJobs,
   setStoredAuthSession,
   updatePostedJob,
@@ -387,7 +388,11 @@ export default function App() {
           <Route
             path="/candidate/jobs"
             element={
-              <CandidateJobsPage jobs={jobs} onApply={handleCandidateApply} />
+              <CandidateJobsPage
+                jobs={jobs}
+                onApply={handleCandidateApply}
+                onPreMatch={preMatchCv}
+              />
             }
           />
           <Route

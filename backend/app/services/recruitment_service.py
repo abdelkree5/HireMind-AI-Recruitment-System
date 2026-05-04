@@ -386,65 +386,61 @@ class RecruitmentService:
         job_id: str,
         file_bytes: bytes,
         filename: str,
+        confirmed_skills: list[str] | None = None,
     ) -> dict:
         job = self.get_job(job_id)
-        candidate_profile_text, candidate_skills, cleaned_cv = extract_candidate_profile_text(file_bytes, filename)
-        if not candidate_profile_text:
-            raise ValueError("Uploaded CV is empty or unreadable.")
 
-        job_text = build_job_text(job)
-        candidate_embedding = embed_text_semantic(candidate_profile_text)
-        job_embedding = embed_text_semantic(job_text)
-        similarity = cosine_similarity(candidate_embedding, job_embedding)
-        base_score = map_similarity_to_score(similarity)
-
-        required_set = {skill.lower() for skill in job.required_skills}
-        candidate_set = {skill.lower() for skill in candidate_skills}
-        matched_keywords = sorted(required_set & candidate_set)
-        missing_keywords = sorted(required_set - candidate_set)
-        overlap = (len(matched_keywords) / len(required_set)) if required_set else 0.0
-
-        candidate_level = self._infer_candidate_level(cleaned_cv)
-        job_level = (job.experience_level or "").strip().lower() or "unknown"
-        experience_match = job_level in {"", "unknown"} or candidate_level == job_level
-
-        candidate_domain = self._infer_candidate_domain(candidate_skills, cleaned_cv)
-        job_domain = (job.domain or "").strip().lower() or "unknown"
-        domain_match = job_domain in {"", "unknown"} or candidate_domain == job_domain
-
-        final_score, adjustments = apply_smart_adjustments(
-            score=base_score,
-            required_overlap=overlap,
-            experience_match=experience_match,
-            domain_match=domain_match,
+        # Use the main matching_service pipeline for consistent, high-quality scoring.
+        job_input = JobInput(
+            title=job.title,
+            description=job.description,
+            required_skills=job.required_skills,
         )
 
+        if confirmed_skills:
+            # If user manually confirmed skills, we re-run matching with these skills as the candidate source
+            resume_text = extract_text_from_resume(file_bytes, filename)
+            match_result = matching_service.match_against_job(job_input, resume_text, confirmed_skills)
+        else:
+            match_result = matching_service.analyze_resume(file_bytes, filename, job_input)
+
+        # Use the match_percentage from the proper skill-based matcher.
+        final_score = match_result.match_percentage
+        match_level = match_result.match_level
+
+        # Build reason from matched/missing skills.
         reason_parts = [
-            f"Semantic similarity: {similarity:.3f}",
-            f"Matched required keywords: {', '.join(matched_keywords) if matched_keywords else 'none'}",
-            f"Missing required keywords: {', '.join(missing_keywords) if missing_keywords else 'none'}",
+            f"Matched skills: {', '.join(match_result.matched_skills) if match_result.matched_skills else 'none'}",
+            f"Missing skills: {', '.join(match_result.missing_skills) if match_result.missing_skills else 'none'}",
         ]
-        if adjustments:
-            reason_parts.append("Adjustments: " + "; ".join(adjustments))
+        
+        # Handle both MatchResult dataclass and CandidateMatchResponse pydantic
+        res_reason = getattr(match_result, "reason", "")
+        if res_reason:
+            reason_parts.append(res_reason)
         reason = " | ".join(reason_parts)
 
         candidate_name = Path(filename).stem or "Candidate"
+        
+        # Feedback logic
+        feedback = ""
+        if hasattr(match_result, "feedback") and match_result.feedback:
+            feedback = match_result.feedback
+        elif hasattr(match_result, "recommendation") and match_result.recommendation:
+            feedback = match_result.recommendation
+        else:
+            feedback = reason
+
         application = JobApplication(
             id=uuid.uuid4().hex,
             job_id=job_id,
             candidate_name=candidate_name,
             candidate_headline="AI Parsed Candidate",
-            candidate_skills=sorted(candidate_set),
+            candidate_skills=sorted(s.lower() for s in (match_result.matched_skills or [])),
             match_score=round(final_score, 2),
-            missing_skills=missing_keywords,
-            score_breakdown={
-                "similarity": round(similarity, 4),
-                "base_score": round(base_score, 2),
-                "required_overlap": round(overlap, 4),
-                "experience_match": 1.0 if experience_match else 0.0,
-                "domain_match": 1.0 if domain_match else 0.0,
-            },
-            feedback=reason,
+            missing_skills=match_result.missing_skills,
+            score_breakdown=match_result.score_breakdown,
+            feedback=feedback,
             created_at=datetime.utcnow().isoformat(),
         )
 
@@ -481,13 +477,34 @@ class RecruitmentService:
 
         return {
             "score": round(final_score, 2),
-            "match_level": to_match_level(final_score),
-            "similarity": round(similarity, 4),
-            "matched_keywords": matched_keywords,
-            "missing_keywords": missing_keywords,
+            "match_score": round(final_score, 2),
+            "match_level": match_level,
+            "matched_keywords": match_result.matched_skills,
+            "missing_keywords": match_result.missing_skills,
             "reason": reason,
             "application_id": application.id,
         }
+
+    def pre_match_report(self, job_id: str, file_bytes: bytes, filename: str) -> dict:
+        job = self.get_job(job_id)
+        job_input = JobInput(
+            title=job.title,
+            description=job.description,
+            required_skills=job.required_skills,
+        )
+        match_result = matching_service.analyze_resume(file_bytes, filename, job_input)
+
+        return {
+            "score": round(match_result.match_percentage, 2),
+            "match_level": match_result.match_level,
+            "matched_skills": match_result.matched_skills,
+            "missing_skills": match_result.missing_skills,
+            "all_extracted_skills": match_result.logs, # matching_service.analyze_resume logs extracted skills
+            "job_required_skills": job.required_skills,
+            "candidate_level": match_result.evidence.get("candidate_level", "unknown"),
+            "candidate_domain": match_result.evidence.get("candidate_domain", "general"),
+        }
+
 
     def company_dashboard(
         self,

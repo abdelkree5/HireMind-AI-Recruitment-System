@@ -469,3 +469,21 @@ export async function getLatestInterview(applicationId) {
 
   return response.json();
 }
+
+export async function preMatchCv(jobId, formData) {
+  const payload = cloneFormData(formData);
+  if (!payload.has("job_id")) {
+    payload.append("job_id", jobId);
+  }
+
+  const response = await fetch(`${API_BASE}/api/jobs/pre-match`, {
+    method: "POST",
+    body: payload,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to pre-match CV.");
+  }
+
+  return response.json();
+}

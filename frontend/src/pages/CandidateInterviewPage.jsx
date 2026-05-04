@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InterviewChat from "../components/InterviewChat";
 import { Panel, StatCard } from "../components/SaaSPrimitives";
 
 export default function CandidateInterviewPage({ latestApplicationId }) {
   const [applicationId, setApplicationId] = useState(latestApplicationId || "");
+
+  useEffect(() => {
+    if (latestApplicationId) {
+      setApplicationId(latestApplicationId);
+    }
+  }, [latestApplicationId]);
 
   return (
     <div className="space-y-4">

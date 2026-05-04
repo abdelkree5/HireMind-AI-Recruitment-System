@@ -7,11 +7,14 @@ echo.
 
 :: Start Backend in a new window
 echo [1/2] Launching Backend (FastAPI)...
-start "HireMind Backend API" cmd /k "echo Activating Virtual Environment (if exists)... && IF NOT EXIST .venv (echo Creating virtual environment... && py -m venv .venv) && call .venv\Scripts\activate && echo Installing Backend Dependencies... && py -m pip install -r backend\requirements.txt && echo. && echo Starting Backend Server... && py -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000"
+start "HireMind Backend API" cmd /k "cd /d e:\graduate\Ai_resume_graduate && echo Activating Virtual Environment... && call .venv\Scripts\activate && echo. && echo Starting Backend Server... && python -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000"
+
+:: Wait a moment before starting frontend
+timeout /t 3 /nobreak >nul
 
 :: Start Frontend in a new window
 echo [2/2] Launching Frontend (React/Vite)...
-start "HireMind Frontend UI" cmd /k "cd frontend && echo Installing Frontend Dependencies... && npm install && echo. && echo Starting Frontend Server... && npm run dev"
+start "HireMind Frontend UI" cmd /k "cd /d e:\graduate\Ai_resume_graduate\frontend && npm run dev"
 
 echo.
 echo ====================================================

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from dataclasses import dataclass, field
 from math import ceil
@@ -134,26 +134,33 @@ def analyze_role_fit(
 
     missing_core = [skill for skill in core_skills if skill not in normalized_candidate]
     if missing_core:
-        final_score = min(final_score, 0.60)
-        penalties.append("Missing core skill cap (max 60%)")
+        # Scale penalty based on how many core skills are missing
+        core_miss_ratio = len(missing_core) / max(1, len(core_skills))
+        if core_miss_ratio > 0.5:
+            final_score = min(final_score, 0.55)
+            penalties.append(f"Missing {len(missing_core)}/{len(core_skills)} core skills (max 55%)")
+        elif core_miss_ratio > 0.25:
+            final_score = min(final_score, 0.75)
+            penalties.append(f"Missing {len(missing_core)}/{len(core_skills)} core skills (max 75%)")
+        # If only 1 core skill missing, no hard cap
 
     candidate_level = _infer_candidate_seniority(years_of_experience)
     role_level = _infer_role_seniority(requirements.role_name)
     if candidate_level != role_level:
-        final_score -= 0.20
-        penalties.append("Seniority mismatch (-20%)")
+        final_score -= 0.05
+        penalties.append("Seniority mismatch (-5%)")
 
     candidate_domain = _infer_candidate_domain(normalized_candidate)
     if requirements.domain and candidate_domain != "general" and candidate_domain != requirements.domain:
-        final_score -= 0.15
-        penalties.append("Domain mismatch (-15%)")
+        final_score -= 0.05
+        penalties.append("Domain mismatch (-5%)")
 
     # Weak matches should never look high.
-    if confidence < 0.70:
-        final_score = min(final_score, 0.69)
+    if confidence < 0.40:
+        final_score = min(final_score, 0.55)
 
-    if missing_skills and confidence < 0.80:
-        final_score = min(final_score, 0.65)
+    if missing_skills and confidence < 0.50:
+        final_score = min(final_score, 0.60)
 
     final_score = max(0.0, min(1.0, final_score))
     
@@ -176,9 +183,9 @@ def analyze_role_fit(
     # High: strong confidence + advanced skills OR experienced + good match
     # Medium: moderate confidence OR junior level
     # Low: poor fit
-    if composite_score >= 0.8 and confidence >= 0.85 and not missing_core:
+    if composite_score >= 0.75 and confidence >= 0.70:
         match_level = "High"
-    elif composite_score >= 0.5:
+    elif composite_score >= 0.50:
         match_level = "Medium"
     else:
         match_level = "Low"

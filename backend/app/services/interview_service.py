@@ -16,53 +16,81 @@ from backend.app.services.recruitment_db import get_connection, init_recruitment
 from backend.app.services.skill_extractor import SkillExtractor
 
 
-MAX_INTERVIEW_TURNS = 6
+MAX_INTERVIEW_TURNS = 8  # Increased for more depth
 TECHNICAL_TARGETS = {
     "rest api": [
         "How did you handle performance, scaling, and error handling in that API?",
-        "What did you do to keep the API stable under higher traffic?",
+        "What was your strategy for API versioning and documentation for other teams?",
+        "If the API started receiving 10x more traffic tomorrow, what's the first thing you'd refactor?",
     ],
     "postgresql": [
         "How did you design indexes, queries, and transactions for that data model?",
-        "What bottlenecks did you see and how did you fix them?",
+        "Explain how you'd handle a long-running migration on a table with millions of rows.",
+        "How do you ensure data integrity when multiple services are writing to the same database?",
     ],
     "python": [
         "Which Python patterns, testing approach, or architecture choices did you use?",
-        "How did you keep the implementation maintainable as the project grew?",
+        "How do you manage memory and performance in Python when processing large datasets?",
+        "Tell me about a time you had to debug a complex race condition or performance bottleneck in Python.",
     ],
     "fastapi": [
         "How did you structure dependencies, validation, and background tasks in FastAPI?",
-        "How did you handle request lifecycle and error handling?",
+        "Why did you choose FastAPI over other frameworks for that specific project?",
     ],
     "kubernetes": [
         "How did you manage deployments, rollouts, and observability in Kubernetes?",
-        "What was your strategy for configuration, scaling, and recovery?",
+        "How do you handle secrets and configuration management across different environments?",
     ],
-    "monitoring": [
-        "Which metrics, dashboards, and alerts did you define?",
-        "How did monitoring influence your incident response decisions?",
+    "react": [
+        "How did you manage global state and side effects in that React application?",
+        "How do you optimize React component rendering to prevent unnecessary re-renders?",
     ],
-    "aws": [
-        "Which AWS services did you use and how did you think about reliability and cost?",
-        "How did you design for availability and operational safety in AWS?",
-    ],
-    "docker": [
-        "How did you package and deploy the service with Docker?",
-        "What issues did containers help you solve in the project?",
+    "machine learning": [
+        "How did you handle data drift and model retraining in that production pipeline?",
+        "Tell me about the tradeoff between model complexity and inference latency in your project.",
     ],
 }
 
+DOMAIN_SCENARIOS = {
+    "backend": [
+        "Imagine a critical service is down but only for 5% of users. How do you start the investigation?",
+        "We're seeing a spike in '504 Gateway Timeout' errors. Walk me through your debugging steps.",
+    ],
+    "frontend": [
+        "A user reports that the app is 'slow' on mobile devices. How do you profile and fix the performance?",
+        "How do you ensure your UI remains accessible and performant across different browsers and network speeds?",
+    ],
+    "devops": [
+        "The latest deployment caused a production outage, and the rollback is failing. What do you do?",
+        "How do you automate the 'Path to Production' while ensuring high security and compliance?",
+    ],
+    "ai_ml": [
+        "Your model's accuracy dropped significantly after deployment. How do you diagnose if it's data drift or a bug?",
+        "How do you ensure your ML models are ethical and unbiased when training on real-world data?",
+    ],
+}
 
-init_recruitment_db()
-
+PERSONAS = [
+    {"name": "Sarah", "role": "Senior Architect", "style": "technical and thorough"},
+    {"name": "Alex", "role": "Engineering Lead", "style": "practical and team-focused"},
+    {"name": "Maya", "role": "Staff Engineer", "style": "system-oriented and analytical"},
+]
 
 def start_job_linked_interview(application_id: str) -> InterviewStartResponse:
     application, job = _get_application_and_job(application_id)
     required_skills = _safe_load_json(job["required_skills"])
     missing_skills = _safe_load_json(application["missing_skills"])
-
+    
+    # Select a persona for this session
+    persona = PERSONAS[hash(application_id) % len(PERSONAS)]
+    
+    intro = f"Hi, I'm {persona['name']}, the {persona['role']} here. I'll be leading your technical evaluation today. "
     first_question = _build_initial_question(job["title"], required_skills, missing_skills)
+    
     profile = _empty_candidate_profile()
+    profile["persona"] = persona
+    profile["job_domain"] = (job.get("domain") or "general").lower()
+    
     memory = {
         "profile": profile,
         "difficulty_level": "medium",
@@ -115,7 +143,7 @@ def start_job_linked_interview(application_id: str) -> InterviewStartResponse:
         status="in_progress",
         total_questions=1,
         current_question_index=0,
-        current_question=first_question,
+        current_question=intro + first_question,
     )
 
 
@@ -381,13 +409,25 @@ def get_latest_interview_for_application(application_id: str) -> InterviewReport
 
 def continue_interview(session_id: str, message: str) -> dict:
     response = submit_interview_answer(session_id, message)
+    
+    # Add conversational flavor
+    prefix = ""
+    if response.answer_score >= 80:
+        prefix = "Impressive. "
+    elif response.answer_score >= 60:
+        prefix = "Got it, that makes sense. "
+    else:
+        prefix = "I see. "
+
+    full_reply = prefix + (response.next_question or "That's all the questions I have for today.")
+
     return {
         "session_id": response.session_id,
-        "reply": response.next_question or "Interview completed.",
+        "reply": full_reply,
         "history": [
             {
                 "role": "assistant",
-                "message": response.next_question or f"Final score: {response.final_score or 0:.1f}%",
+                "message": full_reply,
             }
         ],
         "status": response.status,
@@ -602,20 +642,28 @@ def _generate_next_question(
             "What was the main challenge, what metrics improved, and what was your exact role?",
             "How did you measure the impact of that project, and what tradeoffs did you make?",
             "If you could redo that project, what would you change to make it more scalable or reliable?",
+            "How did you handle the most difficult technical bug or conflict during this project?",
         ]
         for question in followups:
             if question not in used_questions:
                 return question
 
-    if "rest api" in combined_skills or "rest api" in answer_lower:
-        question = "How did you handle performance, scaling, and error handling in that API?"
-        if question not in used_questions:
-            return question
+    # Domain Specific Scenarios
+    job_domain = profile.get("job_domain", "general")
+    if job_domain in DOMAIN_SCENARIOS:
+        scenarios = DOMAIN_SCENARIOS[job_domain]
+        for scenario in scenarios:
+            if scenario not in used_questions:
+                return f"Let's look at a practical scenario. {scenario}"
 
-    if any(skill in combined_skills for skill in ["aws", "kubernetes", "monitoring", "terraform"]):
-        question = "How did you design for reliability, scaling, and observability in that system?"
-        if question not in used_questions:
-            return question
+    # Technical Deep Dives
+    for tech_skill in combined_skills:
+        skill_key = tech_skill.lower().strip()
+        if skill_key in TECHNICAL_TARGETS:
+            targets = TECHNICAL_TARGETS[skill_key]
+            for q in targets:
+                if q not in used_questions:
+                    return q
 
     target_skill = _next_gap(required_skills, profile_skills, missing_skills)
     if target_skill:

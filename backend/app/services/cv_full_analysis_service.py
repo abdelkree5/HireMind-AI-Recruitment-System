@@ -9,8 +9,10 @@ from backend.app.schemas import (
     RoleAnalysisItem,
     StrengthWeaknessReport,
 )
-from backend.app.services.document_parser import extract_text_from_resume
-from backend.app.services.cv_reasoning_engine import build_candidate_insight, recommend_job_titles_from_cv_text
+from ai_engine.parser import ResumeParser
+from ai_engine.reasoning import CandidateReasoningEngine
+# Using bridge for recommendation if it's not fully moved yet
+from backend.app.services.job_title_recommender import recommend_job_titles_from_cv_text, build_candidate_insight
 
 
 def _domain_label(domain: str) -> str:
@@ -111,7 +113,8 @@ def _build_strengths_and_weaknesses(skills: list[str], roles: list[RoleAnalysisI
 
 
 def analyze_full_cv_report(file_bytes: bytes, filename: str) -> FullCvAnalysisResponse:
-    text = extract_text_from_resume(file_bytes, filename)
+    parser = ResumeParser()
+    text = parser.parse(file_bytes, filename)
     if not text.strip():
         raise ValueError("Uploaded file is empty or unreadable.")
 
