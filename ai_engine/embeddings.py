@@ -10,9 +10,9 @@ import sqlite3
 import numpy as np
 
 # Configuration
-BASE_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+BASE_MODEL_NAME = "BAAI/bge-base-en-v1.5"
 FINETUNED_MODEL_DIR = Path(__file__).resolve().parents[1] / "ai_engine" / "training" / "artifacts"
-EMBEDDING_DIMENSIONS = 256
+EMBEDDING_DIMENSIONS = 768
 CACHE_DB_PATH = Path("database/embeddings_cache.db")
 
 class FallbackEmbeddingModel:

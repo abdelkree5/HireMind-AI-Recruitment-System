@@ -46,12 +46,14 @@ HireMind is a modern AI-powered recruitment system with a distributed architectu
 ### 1. Frontend (React)
 
 **Technology Stack:**
+
 - React 18.3.1
 - React Router 7.14.1
 - Tailwind CSS 3.4.17
 - Vite 6.4.2
 
 **Key Features:**
+
 - Responsive design
 - Real-time updates
 - Role-based UI (Candidate/Company)
@@ -59,6 +61,7 @@ HireMind is a modern AI-powered recruitment system with a distributed architectu
 - Dashboard with analytics
 
 **Structure:**
+
 ```
 src/
 ├── pages/          # Page components
@@ -71,12 +74,14 @@ src/
 ### 2. Backend (FastAPI)
 
 **Technology Stack:**
+
 - FastAPI 0.115.8
 - Uvicorn ASGI server
 - Pydantic for validation
 - SQLAlchemy for ORM
 
 **Key Routes:**
+
 - `/api/auth/` - Authentication
 - `/api/cv/` - CV management
 - `/api/jobs/` - Job management
@@ -84,6 +89,7 @@ src/
 - `/api/chat/` - Interview chat
 
 **Features:**
+
 - JWT authentication
 - CORS protection
 - Rate limiting
@@ -92,6 +98,7 @@ src/
 - Auto-generated API docs (Swagger UI)
 
 **Structure:**
+
 ```
 backend/app/
 ├── main.py         # Entry point
@@ -104,6 +111,7 @@ backend/app/
 ### 3. AI Engine
 
 **Technology Stack:**
+
 - Sentence Transformers 3.4.1
 - PyTorch 2.4.0+
 - Transformers 4.48.2
@@ -112,26 +120,31 @@ backend/app/
 **Components:**
 
 #### Parser (`parser.py`)
+
 - PDF extraction (pdfplumber)
 - DOCX parsing (python-docx)
 - Text cleaning and normalization
 
 #### Skill Extractor (`skills.py`)
+
 - NLP-based skills detection
 - Pattern matching
 - Skill categorization
 
 #### Embeddings (`embeddings.py`)
+
 - Generates vector embeddings
 - Uses `all-MiniLM-L6-v2` model by default
 - Supports custom models
 
 #### Matcher (`matcher.py`)
+
 - Cosine similarity calculation
 - Multi-dimensional scoring
 - Ranking algorithm
 
 #### Interview (`interview.py`)
+
 - Question generation
 - Response evaluation
 - Scoring logic
@@ -139,10 +152,12 @@ backend/app/
 ### 4. Database
 
 **Options:**
+
 - **Development:** SQLite (portable, zero-config)
 - **Production:** PostgreSQL (recommended)
 
 **Schema:**
+
 ```
 Users
 ├── id
@@ -179,6 +194,7 @@ Interviews
 ## Data Flow
 
 ### CV Analysis Flow
+
 ```
 1. User uploads CV
    ↓
@@ -194,6 +210,7 @@ Interviews
 ```
 
 ### Job Matching Flow
+
 ```
 1. Jobs posted with requirements
    ↓
@@ -210,6 +227,7 @@ Interviews
 ```
 
 ### Interview Flow
+
 ```
 1. Start interview session
    ↓
@@ -229,12 +247,14 @@ Interviews
 ## Performance Considerations
 
 ### Frontend
+
 - **Build:** < 30 seconds with Vite
 - **Bundle Size:** 19.6 KB CSS + 236 KB JS (gzipped)
 - **Load Time:** < 1 second initial load
 - **Runtime:** < 100ms page transitions
 
 ### Backend
+
 - **Response Time:** < 200ms median
 - **Concurrent Users:** 100+ with uvicorn workers
 - **CV Parsing:** 200-500ms per document
@@ -242,6 +262,7 @@ Interviews
 - **Matching:** 50-100ms per candidate
 
 ### Database
+
 - **Query Time:** < 50ms for indexed queries
 - **Connections:** 20+ concurrent connections
 - **Schema:** Optimized with indexes
@@ -249,17 +270,20 @@ Interviews
 ## Security Architecture
 
 ### Authentication
+
 - JWT tokens (HS256)
 - Token expiration (30 minutes)
 - Refresh tokens
 
 ### Data Protection
+
 - Password hashing (bcrypt)
 - Input validation (Pydantic)
 - SQL injection prevention
 - CORS configuration
 
 ### Infrastructure
+
 - HTTPS enforced
 - Rate limiting
 - CSRF protection
@@ -296,16 +320,19 @@ Interviews
 ## Scalability
 
 ### Horizontal Scaling
+
 - Multiple backend instances
 - Database replication
 - Load balancing
 
 ### Vertical Scaling
+
 - Increased server resources
 - GPU support for embeddings
 - Database optimization
 
 ### Caching Strategy
+
 - Redis for session management
 - Browser caching for static assets
 - API response caching
@@ -313,12 +340,14 @@ Interviews
 ## Monitoring & Logging
 
 **Metrics:**
+
 - Request/response times
 - Error rates
 - Active users
 - API usage
 
 **Logging:**
+
 - Application logs
 - Database queries
 - API requests
@@ -327,7 +356,7 @@ Interviews
 ## Future Enhancements
 
 - [ ] WebSocket for real-time updates
-- [ ] Message queue for async tasks (Celery)
+- [x] Event-driven agent workflow with RabbitMQ (see `docs/rabbitmq_event_architecture.md`)
 - [ ] Advanced search (Elasticsearch)
 - [ ] Caching layer (Redis)
 - [ ] Multi-tenancy support
@@ -335,4 +364,4 @@ Interviews
 
 ---
 
-**Last Updated:** April 2024
+**Last Updated:** June 2026

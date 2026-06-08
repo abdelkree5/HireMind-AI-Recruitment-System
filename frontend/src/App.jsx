@@ -31,6 +31,7 @@ import ReportsPage from "./pages/ReportsPage";
 import RoleSelectionPage from "./pages/RoleSelectionPage";
 import SettingsPage from "./pages/SettingsPage";
 import ApplicationsPage from "./pages/ApplicationsPage";
+import AgentDashboardPage from "./pages/AgentDashboardPage";
 
 const COMPANY_NAV = [
   { to: "/company/dashboard", label: "Dashboard" },
@@ -417,6 +418,9 @@ export default function App() {
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
+
+        {/* Multi-Agent Platform Dashboard — Phase 9 */}
+        <Route path="/agents" element={<AgentDashboardPage />} />
       </Routes>
 
       <Toast

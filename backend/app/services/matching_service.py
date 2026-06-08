@@ -32,7 +32,8 @@ class MatchingService:
             job_description=job.description,
             required_skills=job.required_skills,
             candidate_level=self._infer_seniority(text),
-            job_level=self._infer_seniority(f"{job.title} {job.description}")
+            job_level=self._infer_seniority(f"{job.title} {job.description}"),
+            hiring_rules=job.hiring_rules
         )
         
         logs.extend(report.logs)
@@ -47,11 +48,41 @@ class MatchingService:
             matched_skills=report.matched_skills,
             feedback=self._build_feedback(report.missing_skills),
             recommendation=report.recommendation,
-            reason=f"تم مطابقة {len(report.matched_skills)} من أصل {len(report.matched_skills) + len(report.missing_skills)} مهارات مطلوبة.",
+            reason=report.reason or f"تم مطابقة {len(report.matched_skills)} من أصل {len(report.matched_skills) + len(report.missing_skills)} مهارات مطلوبة.",
             confidence_score=round(report.match_percentage, 2),
             match_level=report.recommendation,
             score_breakdown=report.score_breakdown,
             logs=logs,
+            rule_status=getattr(report, "rule_status", "PASSED"),
+            rule_reasons=getattr(report, "rule_reasons", []),
+        )
+
+    def match_against_job(self, job: JobInput, candidate_text: str, candidate_skills: list[str]) -> CandidateMatchResponse:
+        report = self.matcher.score(
+            candidate_text=candidate_text,
+            candidate_skills=candidate_skills,
+            job_title=job.title,
+            job_description=job.description,
+            required_skills=job.required_skills,
+            hiring_rules=job.hiring_rules
+        )
+        return CandidateMatchResponse(
+            job_title=job.title,
+            match_percentage=round(report.match_percentage, 2),
+            similarity=round(report.similarity, 4),
+            skill_score=round(report.skill_score, 4),
+            title_score=round(report.title_score, 4),
+            missing_skills=report.missing_skills,
+            matched_skills=report.matched_skills,
+            feedback=self._build_feedback(report.missing_skills),
+            recommendation=report.recommendation,
+            reason=report.reason or f"Matched {len(report.matched_skills)} of {len(report.matched_skills) + len(report.missing_skills)} required skills.",
+            confidence_score=round(report.match_percentage, 2),
+            match_level=report.recommendation,
+            score_breakdown=report.score_breakdown,
+            logs=report.logs,
+            rule_status=getattr(report, "rule_status", "PASSED"),
+            rule_reasons=getattr(report, "rule_reasons", []),
         )
 
     def _build_feedback(self, missing_skills: list[str]) -> str:
@@ -68,3 +99,4 @@ class MatchingService:
         return "unknown"
 
 matching_service = MatchingService()
+

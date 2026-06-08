@@ -1,14 +1,15 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
 
 from backend.app.schemas import AuthLoginRequest, AuthRegisterRequest, AuthSessionResponse, AuthUserResponse
 from backend.app.services.auth_service import (
+    ConflictError,
     authenticate_user,
     bootstrap_auth,
     create_session,
     create_user,
-    get_current_user,
+    require_current_user,
     revoke_session,
 )
 
@@ -38,6 +39,8 @@ def register(payload: AuthRegisterRequest) -> AuthSessionResponse:
             role=payload.role,
             company_name=payload.company_name,
         )
+    except ConflictError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -58,14 +61,8 @@ def login(payload: AuthLoginRequest) -> AuthSessionResponse:
 
 @router.get("/me", response_model=AuthUserResponse)
 def me(
-    authorization: str | None = Header(default=None),
-    x_session_token: str | None = Header(default=None),
+    user = Depends(require_current_user),
 ) -> AuthUserResponse:
-    token = _extract_token(authorization, x_session_token)
-    try:
-        user = get_current_user(token)
-    except ValueError as exc:
-        raise HTTPException(status_code=401, detail=str(exc)) from exc
     return AuthUserResponse(**user.as_dict())
 
 

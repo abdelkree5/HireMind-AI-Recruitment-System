@@ -9,6 +9,7 @@
 **HireMind** is an AI-powered recruitment platform that revolutionizes candidate-job matching through intelligent CV analysis, semantic skill extraction, and AI-driven interviews. Built with cutting-edge NLP and machine learning technologies, HireMind enables companies to identify top talent efficiently while helping candidates find their ideal roles.
 
 ### Key Problem Solved
+
 - ❌ **Traditional Approach**: Manual resume screening is tedious, biased, and inefficient
 - ✅ **HireMind Solution**: Automated, intelligent matching using neural embeddings and semantic similarity
 
@@ -17,6 +18,7 @@
 ## ✨ Features
 
 ### 🔍 **CV Analysis**
+
 - Parse resumes in PDF, DOCX, and TXT formats
 - Extract candidate information (name, email, experience, education)
 - Automatic skill detection and classification
@@ -24,18 +26,21 @@
 - Built-in validation and error handling
 
 ### 🧠 **AI Skill Matching**
+
 - **Semantic Similarity**: Uses Sentence Transformers to compute embeddings
 - **Cosine Similarity**: Advanced matching algorithm to find candidates matching job requirements
 - **Multi-dimensional Scoring**: Combines skill coverage, relevance, and experience level
 - **Ranking System**: Candidates ranked by overall fit score
 
 ### 📊 **Skill Extraction Engine**
+
 - NLP-based skill identification from CV text
 - Categorization (Technical, Soft Skills, Languages)
 - Relevance scoring for each extracted skill
 - Support for domain-specific skill databases
 
 ### 🎤 **AI Interview System**
+
 - Real-time chat-based technical interviews
 - AI evaluates responses on:
   - **Technical Depth**: Knowledge of concepts
@@ -45,6 +50,7 @@
 - Interview transcripts and analytics
 
 ### 📈 **Candidate Dashboard**
+
 - View profile and uploaded CV
 - Track job applications and statuses
 - See match scores for applied positions
@@ -52,6 +58,7 @@
 - Career recommendations
 
 ### 🏢 **Company Dashboard**
+
 - Post and manage job openings
 - View all applicants with match scores
 - Shortlist and rank candidates
@@ -63,11 +70,13 @@
 ## 🛠 Tech Stack
 
 ### Backend
+
 - **Framework**: [FastAPI](https://fastapi.tiangolo.com/) - Modern, fast web framework
 - **Server**: [Uvicorn](https://www.uvicorn.org/) - ASGI server
 - **Language**: Python 3.9+
 
 ### Frontend
+
 - **Framework**: [React 18.3.1](https://react.dev/) - UI library
 - **Router**: [React Router 7](https://reactrouter.com/) - Client-side routing
 - **Styling**: [Tailwind CSS 3.4](https://tailwindcss.com/) - Utility-first CSS
@@ -75,17 +84,20 @@
 - **Build Time**: < 30 seconds
 
 ### AI & ML
+
 - **Embeddings**: [Sentence Transformers](https://www.sbert.net/) (all-MiniLM-L6-v2)
 - **NLP**: [Transformers Library](https://huggingface.co/transformers/)
 - **Deep Learning**: [PyTorch](https://pytorch.org/)
 - **ML Pipeline**: [scikit-learn](https://scikit-learn.org/)
 
 ### Database
+
 - **Default**: SQLite (portable, zero-config)
 - **Production**: PostgreSQL recommended
 - **ORM-Style**: Pydantic + Python dataclasses
 
 ### Document Processing
+
 - **PDFs**: [pdfplumber](https://github.com/jsvine/pdfplumber)
 - **Word Docs**: [python-docx](https://python-docx.readthedocs.io/)
 
@@ -161,6 +173,7 @@ HireMind/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Python**: 3.9 or higher
 - **Node.js**: 16.x or higher
 - **npm**: 8.x or higher
@@ -169,6 +182,7 @@ HireMind/
 ### Installation
 
 #### 1. Clone Repository
+
 ```bash
 git clone https://github.com/yourusername/HireMind.git
 cd HireMind
@@ -221,6 +235,7 @@ uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 Backend runs on: **http://127.0.0.1:8000**
+
 - 📖 API Docs: **http://127.0.0.1:8000/docs** (Swagger UI)
 - 📋 ReDoc: **http://127.0.0.1:8000/redoc**
 
@@ -238,6 +253,7 @@ Frontend runs on: **http://localhost:5173**
 ## 🔄 AI Pipeline Workflow
 
 ### CV Analysis Flow
+
 ```
 1. User uploads CV (PDF/DOCX/TXT)
    ↓
@@ -266,6 +282,9 @@ Frontend runs on: **http://localhost:5173**
 ```
 
 ### Job Matching Flow
+
+This platform now uses a RabbitMQ-based event-driven agent workflow for candidate processing and match scoring. Durable queues, retry logic, and dead-letter queues are used for reliable distributed execution.
+
 ```
 1. Company posts job with requirements
    ↓
@@ -284,6 +303,7 @@ Frontend runs on: **http://localhost:5173**
 ```
 
 ### Interview Flow
+
 ```
 1. Candidate starts interview
    ↓
@@ -306,6 +326,7 @@ Frontend runs on: **http://localhost:5173**
 ## 📡 API Endpoints Overview
 
 ### Authentication
+
 ```
 POST   /api/auth/register          - Register new user
 POST   /api/auth/login             - Login user
@@ -314,6 +335,7 @@ GET    /api/auth/me                - Get current user
 ```
 
 ### CV Analysis
+
 ```
 POST   /api/cv/upload              - Upload and analyze CV
 GET    /api/cv/{cv_id}             - Get CV analysis results
@@ -322,6 +344,7 @@ DELETE /api/cv/{cv_id}             - Delete CV
 ```
 
 ### Jobs
+
 ```
 POST   /api/jobs                   - Create job posting
 GET    /api/jobs                   - List jobs with filters
@@ -331,6 +354,7 @@ DELETE /api/jobs/{job_id}          - Delete job
 ```
 
 ### Matching
+
 ```
 POST   /api/match/candidates       - Get matched candidates for job
 GET    /api/match/jobs             - Get matched jobs for candidate
@@ -338,6 +362,7 @@ GET    /api/match/score            - Calculate match score
 ```
 
 ### Interview
+
 ```
 POST   /api/chat/send              - Send message in interview
 GET    /api/chat/{interview_id}    - Get interview history
@@ -352,6 +377,7 @@ GET    /api/chat/{interview_id}/score - Get interview score
 > Screenshots will be added here after project completion
 
 ### Candidate Portal
+
 - Dashboard with match scores
 - CV analysis results
 - Job search and filtering
@@ -359,6 +385,7 @@ GET    /api/chat/{interview_id}/score - Get interview score
 - Interview chat interface
 
 ### Company Portal
+
 - Dashboard with hiring metrics
 - Job management
 - Candidate shortlisting
@@ -370,6 +397,7 @@ GET    /api/chat/{interview_id}/score - Get interview score
 ## ⚙️ Configuration
 
 ### Environment Variables
+
 Copy `.env.example` to `.env` and configure:
 
 ```bash
@@ -377,9 +405,11 @@ cp .env.example .env
 ```
 
 Key variables:
+
 - `BACKEND_HOST` - Backend server address
 - `BACKEND_PORT` - Backend port (default: 8000)
 - `DATABASE_URL` - Database connection string
+- `HIREMIND_DATABASE_URL` - Optional alternate DB connection string alias
 - `EMBEDDING_MODEL` - Model for embeddings
 - `SECRET_KEY` - JWT secret (change in production!)
 - `VITE_API_BASE_URL` - Frontend API endpoint
@@ -387,11 +417,13 @@ Key variables:
 ### Database Setup
 
 **SQLite** (default):
+
 ```bash
 python database/init_db.py
 ```
 
 **PostgreSQL**:
+
 ```bash
 # Install PostgreSQL locally or use Docker
 # Update DATABASE_URL in .env:
@@ -405,6 +437,7 @@ python database/init_db.py
 ## 🧪 Testing
 
 ### Test Backend
+
 ```bash
 # Install test dependencies
 pip install pytest pytest-asyncio
@@ -414,6 +447,7 @@ pytest backend/tests/ -v
 ```
 
 ### Test Frontend
+
 ```bash
 npm run test
 ```

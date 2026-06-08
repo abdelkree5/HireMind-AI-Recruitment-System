@@ -7,11 +7,13 @@
 **A:** There are two ways:
 
 1. **Docker (Recommended):**
+
 ```bash
 docker-compose up
 ```
 
 2. **Local Setup:**
+
 ```bash
 # Setup backend
 python -m venv .venv
@@ -25,7 +27,8 @@ cd frontend && npm install && npm run dev
 
 ### Q: What are the system requirements?
 
-**A:** 
+**A:**
+
 - Python 3.9+
 - Node.js 16+
 - PostgreSQL (optional, SQLite works for development)
@@ -35,6 +38,7 @@ cd frontend && npm install && npm run dev
 ### Q: How do I access the application?
 
 **A:**
+
 - Frontend: http://localhost:5173
 - Backend API: http://127.0.0.1:8000
 - API Docs: http://127.0.0.1:8000/docs
@@ -47,6 +51,7 @@ cd frontend && npm install && npm run dev
 ### Q: How do I run tests?
 
 **A:**
+
 ```bash
 # All tests
 make test
@@ -61,12 +66,14 @@ make test-frontend
 ### Q: How do I add a new API endpoint?
 
 **A:**
+
 1. Create a new route file in `backend/app/routes/`
 2. Define your endpoint with FastAPI decorators
 3. Add it to the main router in `backend/app/main.py`
 4. Add Pydantic models in `backend/app/schemas.py`
 
 Example:
+
 ```python
 from fastapi import APIRouter
 from backend.app.schemas import MyRequest, MyResponse
@@ -81,6 +88,7 @@ async def create_item(request: MyRequest):
 ### Q: How do I modify the database schema?
 
 **A:**
+
 1. Update the schema in `database/schema.sql`
 2. Run migrations: `make db-migrate`
 3. Or reinitialize: `python database/init_db.py`
@@ -88,6 +96,7 @@ async def create_item(request: MyRequest):
 ### Q: How do I change Tailwind styling?
 
 **A:**
+
 1. Edit `frontend/tailwind.config.js` for theme
 2. Edit `frontend/src/index.css` for custom styles
 3. Rebuild: `npm run build:css`
@@ -99,6 +108,7 @@ async def create_item(request: MyRequest):
 ### Q: How do I deploy to production?
 
 **A:** See [DEPLOYMENT.md](../DEPLOYMENT.md) for detailed guides on:
+
 - Traditional servers (Ubuntu/Debian)
 - Docker deployment
 - Cloud platforms (AWS, Heroku, Railway, etc.)
@@ -106,6 +116,7 @@ async def create_item(request: MyRequest):
 ### Q: What's the recommended database for production?
 
 **A:** PostgreSQL is recommended. Update your `.env`:
+
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/hiremind_db
 ```
@@ -113,10 +124,12 @@ DATABASE_URL=postgresql://user:password@localhost:5432/hiremind_db
 ### Q: Do I need a GPU?
 
 **A:** No, but it speeds up embeddings:
+
 - CPU: 100-300ms per CV
 - GPU: 20-50ms per CV
 
 To enable GPU:
+
 ```env
 EMBEDDING_DEVICE=cuda
 ```
@@ -128,6 +141,7 @@ EMBEDDING_DEVICE=cuda
 ### Q: What file formats does CV upload support?
 
 **A:**
+
 - PDF (.pdf)
 - Word (.docx, .doc)
 - Text (.txt)
@@ -137,6 +151,7 @@ Maximum file size: 10 MB
 ### Q: How accurate is the AI matching?
 
 **A:**
+
 - Accuracy depends on CV quality and job descriptions
 - Typical accuracy: 75-90%
 - Improves with fine-tuned models (advanced setup)
@@ -144,6 +159,7 @@ Maximum file size: 10 MB
 ### Q: Can I customize the matching algorithm?
 
 **A:** Yes! Modify `ai_engine/matcher.py` for custom scoring logic. You can:
+
 - Adjust weight of different factors
 - Add custom scoring rules
 - Integrate external APIs
@@ -151,6 +167,7 @@ Maximum file size: 10 MB
 ### Q: How many candidates can I match at once?
 
 **A:**
+
 - No hard limit
 - Typical: 100+ candidates in real-time
 - For 1000+ use batch processing
@@ -162,6 +179,7 @@ Maximum file size: 10 MB
 ### Q: Port already in use error
 
 **A:** Change the port:
+
 ```bash
 # Backend
 uvicorn backend.app.main:app --port 8001
@@ -172,7 +190,8 @@ cd frontend && npm run dev -- --port 3000
 
 ### Q: Database connection error
 
-**A:** 
+**A:**
+
 1. Check `.env` DATABASE_URL
 2. Verify PostgreSQL is running: `psql -U postgres`
 3. Reset SQLite: `rm database/hiremind.db && python database/init_db.py`
@@ -180,6 +199,7 @@ cd frontend && npm run dev -- --port 3000
 ### Q: Frontend won't connect to backend
 
 **A:**
+
 1. Check backend is running on 8000
 2. Check `.env` VITE_API_BASE_URL is correct
 3. Check CORS in backend settings
@@ -188,6 +208,7 @@ cd frontend && npm run dev -- --port 3000
 ### Q: npm install fails
 
 **A:**
+
 ```bash
 # Clear cache and reinstall
 rm -rf node_modules package-lock.json
@@ -197,6 +218,7 @@ npm install
 ### Q: Python imports failing
 
 **A:**
+
 ```bash
 # Reinstall dependencies
 pip install --upgrade pip
@@ -206,6 +228,7 @@ pip install -r backend/requirements.txt --force-reinstall
 ### Q: "Module not found" errors
 
 **A:**
+
 ```bash
 # Run from project root, not subfolder
 cd e:\graduate\Ai_resume_graduate  # or your project folder
@@ -219,6 +242,7 @@ uvicorn backend.app.main:app --reload
 ### Q: How can I improve performance?
 
 **A:**
+
 - Use Docker for consistent environment
 - Enable caching (Redis)
 - Use PostgreSQL in production
@@ -229,6 +253,7 @@ uvicorn backend.app.main:app --reload
 ### Q: What's the typical response time?
 
 **A:**
+
 - API: < 200ms
 - CV parsing: 200-500ms
 - Matching: 50-100ms per candidate
@@ -241,6 +266,7 @@ uvicorn backend.app.main:app --reload
 ### Q: Is HireMind secure?
 
 **A:** Yes, it includes:
+
 - JWT authentication
 - Password hashing (bcrypt)
 - Input validation
@@ -251,6 +277,7 @@ uvicorn backend.app.main:app --reload
 ### Q: How do I secure my `.env` file?
 
 **A:**
+
 ```bash
 # Never commit .env
 git add .gitignore  # This ignores .env
@@ -275,6 +302,7 @@ cp .env.example .env
 ### Q: How do I report a bug?
 
 **A:** Open an issue on GitHub:
+
 1. Go to [Issues](https://github.com/yourusername/HireMind/issues)
 2. Click "New Issue"
 3. Use bug report template
@@ -283,6 +311,7 @@ cp .env.example .env
 ### Q: How do I contribute code?
 
 **A:**
+
 1. Fork the repository
 2. Create a branch: `git checkout -b feature/my-feature`
 3. Make changes
@@ -296,6 +325,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md)
 ### Q: What's the code style?
 
 **A:**
+
 - Python: PEP 8 (Black formatter)
 - JavaScript: Prettier formatter
 - Use `make lint` to check
@@ -307,6 +337,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md)
 ### Q: Can I use custom embedding models?
 
 **A:** Yes! In `ai_engine/embeddings.py`, change the model name:
+
 ```python
 model_name = "sentence-transformers/all-MiniLM-L6-v2"  # Change this
 ```
@@ -316,6 +347,7 @@ Available models: [Hugging Face Model Hub](https://huggingface.co/models?library
 ### Q: How do I fine-tune the model?
 
 **A:** Run training scripts:
+
 ```bash
 cd ai_engine/training
 python prepare_dataset.py
@@ -328,6 +360,7 @@ See [README.md](../README.md) for detailed steps.
 ### Q: Can I integrate with external services?
 
 **A:** Yes, the API is extensible. You can:
+
 - Add new routes easily
 - Integrate Slack, email notifications
 - Connect to external job boards

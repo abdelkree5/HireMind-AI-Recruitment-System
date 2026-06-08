@@ -1,0 +1,1 @@
+"""HireMind Plugin Ecosystem Package"""

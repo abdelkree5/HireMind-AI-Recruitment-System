@@ -12,7 +12,7 @@ from backend.app.schemas import (
 from ai_engine.parser import ResumeParser
 from ai_engine.reasoning import CandidateReasoningEngine
 # Using bridge for recommendation if it's not fully moved yet
-from backend.app.services.job_title_recommender import recommend_job_titles_from_cv_text, build_candidate_insight
+from ai_engine.reasoning import recommend_job_titles_from_cv_text, build_candidate_insight
 
 
 def _domain_label(domain: str) -> str:

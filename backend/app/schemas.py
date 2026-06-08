@@ -1,6 +1,20 @@
 from pydantic import BaseModel, Field
 
 
+class HiringRules(BaseModel):
+    mandatory_skills: list[str] = Field(default_factory=list)
+    preferred_skills: list[str] = Field(default_factory=list)
+    min_experience_years: int | None = None
+    required_seniority: str | None = None
+    min_education: str | None = None
+    location: str | None = None
+    language: str | None = None
+    max_salary: int | None = None
+    employment_type: str | None = None
+    work_authorization: str | None = None
+    industry: str | None = None
+
+
 class JobInput(BaseModel):
     title: str = Field(..., description="عنوان الوظيفة")
     description: str = Field(..., description="وصف الوظيفة")
@@ -10,6 +24,7 @@ class JobInput(BaseModel):
     tools: list[str] = Field(default_factory=list)
     experience_level: str = ""
     domain: str = ""
+    hiring_rules: HiringRules | None = None
 
 
 class CandidateMatchResponse(BaseModel):
@@ -31,6 +46,9 @@ class CandidateMatchResponse(BaseModel):
     recommendation: str = ""
     score_breakdown: dict[str, float] = Field(default_factory=dict)
     logs: list[str]
+    rule_status: str = "PASSED"
+    rule_reasons: list[str] = Field(default_factory=list)
+
 
 
 class CandidateProfile(BaseModel):
@@ -180,7 +198,9 @@ class PostedJob(BaseModel):
     tools: list[str] = Field(default_factory=list)
     experience_level: str = ""
     domain: str = ""
+    hiring_rules: HiringRules | None = None
     created_at: str
+
 
 
 class PostedJobsResponse(BaseModel):

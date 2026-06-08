@@ -3,6 +3,7 @@
 ## Overview
 
 This is the FastAPI backend for the HireMind AI-powered recruitment platform. It handles:
+
 - User authentication (registration, login)
 - CV analysis and parsing
 - Resume-to-job matching with embeddings
@@ -83,6 +84,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 ## API Documentation
 
 Once the server is running, access:
+
 - **Swagger UI**: http://127.0.0.1:8000/docs
 - **ReDoc**: http://127.0.0.1:8000/redoc
 - **OpenAPI JSON**: http://127.0.0.1:8000/openapi.json
@@ -90,43 +92,51 @@ Once the server is running, access:
 ## Key Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 - `GET /api/auth/me` - Get current user info
 
 ### CV Analysis
+
 - `POST /api/cv/upload` - Upload and analyze CV
 - `GET /api/cv/{cv_id}` - Get CV analysis results
 - `GET /api/cv/list` - List all user CVs
 
 ### Jobs
+
 - `POST /api/jobs` - Create job posting
 - `GET /api/jobs` - List jobs
 - `GET /api/jobs/{job_id}` - Get job details
 
 ### Matching
+
 - `POST /api/match/candidates` - Get matched candidates for job
 - `GET /api/match/jobs` - Get matched jobs for candidate
 
 ### Interview
+
 - `POST /api/chat/send` - Send message in interview
 - `POST /api/chat/start` - Start new interview
 
 ## Key Features
 
 ### CV Analysis
+
 - Parses PDF, DOCX, TXT files
 - Extracts name, email, phone, experience
 - Identifies education and certifications
 - Detects skills using NLP
 
 ### Skill Matching
+
 - Uses Sentence Transformers for embeddings
 - Computes cosine similarity between CV and job
 - Multi-dimensional scoring (skills, experience, etc.)
 - Real-time ranking
 
 ### Interview System
+
 - Chat-based technical interviews
 - AI evaluation of responses
 - Scoring on: Technical Depth, Communication, Experience
@@ -135,6 +145,7 @@ Once the server is running, access:
 ## Dependencies
 
 Key packages:
+
 - `fastapi` - Web framework
 - `uvicorn` - ASGI server
 - `sentence-transformers` - Embeddings generation
@@ -148,10 +159,13 @@ See `requirements.txt` for complete list with versions.
 ## Configuration
 
 Environment variables (from `.env`):
+
 ```
 BACKEND_HOST=127.0.0.1
 BACKEND_PORT=8000
 DATABASE_URL=sqlite:///./database/hiremind.db
+# Optional alias for backward compatibility:
+# HIREMIND_DATABASE_URL=postgresql://user:password@localhost:5432/hiremind_db
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 SECRET_KEY=your-secret-key
 ```
@@ -159,11 +173,13 @@ SECRET_KEY=your-secret-key
 ## Database
 
 ### SQLite (Development)
+
 ```bash
 python ../database/init_db.py
 ```
 
 ### PostgreSQL (Production)
+
 ```bash
 # Update DATABASE_URL in .env:
 # postgresql://user:password@localhost:5432/hiremind_db
@@ -193,20 +209,26 @@ pytest tests/ --cov=app --cov-report=html
 ## Troubleshooting
 
 ### Issue: "ModuleNotFoundError: No module named 'app'"
+
 **Solution**: Make sure you're in the project root, not the backend folder:
+
 ```bash
 cd ..  # Go to project root
 uvicorn backend.app.main:app --reload
 ```
 
 ### Issue: Port 8000 already in use
+
 **Solution**: Use a different port:
+
 ```bash
 uvicorn app.main:app --reload --port 8001
 ```
 
 ### Issue: Database connection error
+
 **Solution**: Ensure `.env` has correct `DATABASE_URL`:
+
 ```bash
 sqlite:///./database/hiremind.db  # For SQLite
 # or

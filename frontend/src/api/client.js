@@ -487,3 +487,67 @@ export async function preMatchCv(jobId, formData) {
 
   return response.json();
 }
+
+export async function submitRecruiterFeedback(payload) {
+  const response = await fetch(`${API_BASE}/api/feedback`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to submit feedback.");
+  }
+
+  return response.json();
+}
+
+export async function getRecruiterFeedback(applicationId) {
+  const response = await fetch(`${API_BASE}/api/feedback/${applicationId}`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) return null;
+    throw new Error("Failed to fetch feedback.");
+  }
+
+  return response.json();
+}
+
+export async function getFeedbackAnalytics() {
+  const response = await fetch(`${API_BASE}/api/feedback/analytics`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch feedback analytics.");
+  }
+
+  return response.json();
+}
+
+export async function trainLtrModel() {
+  const response = await fetch(`${API_BASE}/api/feedback/ltr/train`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to train LTR model.");
+  }
+
+  return response.json();
+}
+
+export async function getLtrInfo() {
+  const response = await fetch(`${API_BASE}/api/feedback/ltr/info`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch LTR info.");
+  }
+
+  return response.json();
+}
+

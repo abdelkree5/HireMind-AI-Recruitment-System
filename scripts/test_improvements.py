@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test improved CV analysis system."""
 
-from backend.app.services.cv_reasoning_engine import recommend_job_titles_from_cv_text
+from ai_engine.reasoning import recommend_job_titles_from_cv_text
 
 # Test 1: Senior DevOps Engineer
 print("=" * 60)

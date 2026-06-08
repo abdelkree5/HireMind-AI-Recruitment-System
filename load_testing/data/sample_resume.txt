@@ -1,0 +1,13 @@
+Amina Ahmed
+Senior Backend Engineer
+
+Experience:
+- Designed and implemented large-scale Python microservices.
+- Built data pipelines and search indexing workflows.
+- Integrated PostgreSQL, RabbitMQ, and FastAPI for distributed systems.
+
+Skills:
+Python, FastAPI, SQL, PostgreSQL, RabbitMQ, Docker, Kubernetes, Observability, Cloud Architecture
+
+Summary:
+Experienced in production-grade backend architecture, event-driven systems, and agent orchestration.

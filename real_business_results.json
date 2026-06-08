@@ -1,0 +1,396 @@
+[
+  {
+    "name": "1. Candidate Career Coach",
+    "status": "PASS",
+    "duration": 1.0552353858947754,
+    "inputs": {
+      "candidate_skills": [
+        "python",
+        "flask",
+        "sql"
+      ],
+      "target_role": "Senior Backend Engineer",
+      "candidate_text": "I am a developer with 4 years of python experience."
+    },
+    "outputs": {
+      "gap_analysis": {
+        "target_role": "Senior Backend Engineer",
+        "coverage_percentage": 0.0,
+        "matched_skills": [],
+        "critical_gaps": [
+          "git",
+          "problem solving",
+          "system design"
+        ],
+        "growth_opportunities": [
+          "system design"
+        ],
+        "total_required": 3,
+        "total_matched": 0,
+        "readiness_level": "Early Stage"
+      },
+      "roadmap": {
+        "target_role": "Senior Backend Engineer",
+        "total_skills_to_acquire": 3,
+        "phases": [
+          {
+            "phase": "Phase 1",
+            "skills": [
+              "system design",
+              "problem solving",
+              "git"
+            ],
+            "estimated_weeks": 12
+          }
+        ],
+        "steps": [
+          {
+            "skill_to_learn": "system design",
+            "bridge_skills": [],
+            "difficulty": "medium"
+          },
+          {
+            "skill_to_learn": "problem solving",
+            "bridge_skills": [],
+            "difficulty": "medium"
+          },
+          {
+            "skill_to_learn": "git",
+            "bridge_skills": [],
+            "difficulty": "medium"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "2. Candidate Copilot",
+    "status": "PASS",
+    "duration": 0.11727690696716309,
+    "inputs": {
+      "questions": [
+        "Review my CV for a backend role.",
+        "How should I prepare for a system design interview?",
+        "What are the best skills to learn right now?",
+        "How can I improve my experience section?",
+        "Give me a mock interview question for Python."
+      ]
+    },
+    "outputs": {
+      "answers": [
+        {
+          "question": "Review my CV for a backend role.",
+          "answer": "{\"headline\": \"Review my CV for a backend role.\", \"level\": \"\", \"skills_found\": 0, \"primary_domain\": \"backend_ai\", \"years_experience\": 0, \"leadership_score\": 0.0, \"depth_score\": 0.0}"
+        },
+        {
+          "question": "How should I prepare for a system design interview?",
+          "answer": "{\"practice_questions\": [{\"skill\": \"rest api\", \"question\": \"How did you handle performance, scaling, and error handling in that API?\"}, {\"skill\": \"postgresql\", \"question\": \"How did you design indexes, queries, and transactions for that data model?\"}, {\"skill\": \"python\", \"question\": \"Which Python patterns, testing approach, or architecture choices did you use?\"}], \"tip\": \"Use the STAR method for behavioral questions.\"}"
+        },
+        {
+          "question": "What are the best skills to learn right now?",
+          "answer": "{\"detected_skills\": [], \"count\": 0}"
+        },
+        {
+          "question": "How can I improve my experience section?",
+          "answer": "{\"suggestions\": [\"Add specific years of experience to strengthen your profile.\", \"Include leadership examples (led, managed, mentored) to show growth potential.\", \"Add more project details with metrics (deployed, built, optimized).\", \"List more technical skills explicitly to improve ATS matching.\"], \"current_strengths\": []}"
+        },
+        {
+          "question": "Give me a mock interview question for Python.",
+          "answer": "{\"practice_questions\": [{\"skill\": \"rest api\", \"question\": \"How did you handle performance, scaling, and error handling in that API?\"}, {\"skill\": \"postgresql\", \"question\": \"How did you design indexes, queries, and transactions for that data model?\"}, {\"skill\": \"python\", \"question\": \"Which Python patterns, testing approach, or architecture choices did you use?\"}], \"tip\": \"Use the STAR method for behavioral questions.\"}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "3. CV Builder",
+    "status": "PASS",
+    "duration": 0.3787655830383301,
+    "inputs": {
+      "candidate_id": "test_candidate_123",
+      "linkedin_data": {},
+      "github_data": {},
+      "candidate_text": "Experienced Python developer working on web apps.",
+      "format_type": "recruiter_optimized"
+    },
+    "outputs": {
+      "ats_friendly": "PROFESSIONAL SUMMARY\nJunior professional with 0 years of experience.\nPrimary domain: backend_ai\n\nTECHNICAL SKILLS\nPython\n\nEXPERIENCE\n- 0 years of professional experience\n- Domain expertise: backend_ai\n",
+      "modern": "## Junior Backend Ai Professional\n\n**0+ years** | **1 technical skills** | **backend_ai**\n\n### Core Competencies\n  Python\n\n### Key Strengths\n- Technical Depth: 8% score",
+      "recruiter_optimized": "CANDIDATE PROFILE \u2014 Optimized for: Target Role\n\nMatch Highlights:\n  \ud83d\udcca Experience: 0 years\n  \ud83c\udfaf Domain: backend_ai\n\nAdditional Skills:\n  Python"
+    }
+  },
+  {
+    "name": "4. Coding Interview Agent",
+    "status": "PASS",
+    "duration": 0.0022399425506591797,
+    "inputs": {
+      "generate": {
+        "role": "Backend",
+        "difficulty": "medium"
+      },
+      "evaluate": {
+        "problem_id": "123",
+        "code": "def solve(): return True"
+      }
+    },
+    "outputs": {
+      "challenge": {
+        "challenge_id": "f44116d1-9017-4891-82a9-8d811135d0cb",
+        "problem": {
+          "id": "lru_cache",
+          "title": "LRU Cache",
+          "description": "Design a data structure that follows the constraints of a Least Recently Used cache.",
+          "expected_complexity": "O(1)",
+          "tags": [
+            "design",
+            "hash_map",
+            "linked_list"
+          ]
+        },
+        "difficulty": "medium",
+        "time_limit_minutes": 30
+      },
+      "evaluation": {
+        "overall_score": 74.0,
+        "correctness_score": 70,
+        "efficiency_score": 80,
+        "style_score": 75.0,
+        "complexity_analysis": {
+          "estimated": "O(1)",
+          "loop_count": 0,
+          "nested_loops": 0,
+          "uses_sorting": false
+        },
+        "code_analysis": {
+          "has_function": true,
+          "function_count": 1,
+          "has_class": false,
+          "uses_recursion": false,
+          "line_count": 1,
+          "syntax_errors": null
+        },
+        "feedback": []
+      }
+    }
+  },
+  {
+    "name": "5. Behavioral Interview Agent",
+    "status": "PASS",
+    "duration": 0.0034651756286621094,
+    "inputs": {
+      "dimension": "leadership",
+      "answer": "I led a team of 5 engineers to deliver the project ahead of schedule."
+    },
+    "outputs": {
+      "dimension": "leadership",
+      "overall_score": 20.2,
+      "star_analysis": {
+        "situation": false,
+        "task": false,
+        "action": true,
+        "result": false
+      },
+      "signal_score": 15.0,
+      "depth_score": 20.0,
+      "feedback": [
+        "Missing situation context \u2014 describe the specific scenario.",
+        "Missing task description \u2014 what was your responsibility?",
+        "Missing result \u2014 what was the measurable outcome?"
+      ]
+    }
+  },
+  {
+    "name": "6. Debate Agent",
+    "status": "PASS",
+    "duration": 0.0178372859954834,
+    "inputs": {
+      "candidate_id": "cand_123",
+      "job_id": "job_456"
+    },
+    "outputs": {
+      "debate_id": "f493b371-dddd-4c42-8a8b-55b5fc4ad35b",
+      "participants": [
+        "matching",
+        "hiring_rules",
+        "cv_analysis",
+        "job_analysis"
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "type": "initial_arguments",
+          "arguments": [
+            {
+              "agent": "matching",
+              "position": "pass",
+              "score": 0.0,
+              "reasoning": "Skill coverage is 0.0%. Matched 0/0 required skills.",
+              "evidence": []
+            },
+            {
+              "agent": "hiring_rules",
+              "position": "hire",
+              "score": 80,
+              "reasoning": "Candidate has 0 years of experience. Meets requirements.",
+              "evidence": [
+                "0 years experience"
+              ]
+            },
+            {
+              "agent": "cv_analysis",
+              "position": "maybe",
+              "score": 40,
+              "reasoning": "CV shows 0 depth signals. Profile indicates moderate project experience.",
+              "evidence": [
+                "0 depth signals detected"
+              ]
+            },
+            {
+              "agent": "job_analysis",
+              "position": "neutral",
+              "score": 60,
+              "reasoning": "Job '' in domain '' requires standard assessment.",
+              "evidence": [
+                "",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "type": "rebuttals",
+          "rebuttals": [
+            {
+              "from_agent": "hiring_rules",
+              "to_agent": "matching",
+              "rebuttal": "hiring_rules argues that despite matching's concerns, the candidate shows strong signals in other areas."
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "type": "consensus",
+          "result": {
+            "decision": "pass",
+            "confidence": 45.0,
+            "votes": {
+              "hire": 1,
+              "pass": 2,
+              "maybe": 1
+            },
+            "dissenting_agents": [
+              "hiring_rules"
+            ],
+            "consensus_reasoning": "The panel recommends passing on this candidate with 45.0% average confidence."
+          }
+        }
+      ],
+      "consensus": {
+        "decision": "pass",
+        "confidence": 45.0,
+        "votes": {
+          "hire": 1,
+          "pass": 2,
+          "maybe": 1
+        },
+        "dissenting_agents": [
+          "hiring_rules"
+        ],
+        "consensus_reasoning": "The panel recommends passing on this candidate with 45.0% average confidence."
+      }
+    }
+  },
+  {
+    "name": "7. Recruiter Memory",
+    "status": "PASS",
+    "duration": 0.05643463134765625,
+    "inputs": {
+      "inserted": "I prefer candidates with strong FastAPI and Docker experience.",
+      "query": "FastAPI experience"
+    },
+    "outputs": {
+      "results": [
+        "I prefer candidates with strong FastAPI and Docker experience.",
+        "I prefer candidates with strong FastAPI and Docker experience.",
+        "I prefer candidates with strong FastAPI and Docker experience."
+      ]
+    }
+  },
+  {
+    "name": "8. RabbitMQ Event Bus",
+    "status": "PASS",
+    "duration": 1.0012240409851074,
+    "inputs": {
+      "published_id": "9d60f9a6-a825-407d-83b9-485151fee857"
+    },
+    "outputs": {
+      "consumed_messages": [
+        {
+          "sender_agent": "test_suite",
+          "receiver_agent": "dummy_test_agent",
+          "task_type": "ping",
+          "payload": {
+            "test_id": "9d60f9a6-a825-407d-83b9-485151fee857"
+          },
+          "status": "pending",
+          "trace_id": "7e6d5bac105d4b8bb9ede85611bea653",
+          "workflow_id": "fcd6b57781cc4a68809dd1f9e6e378c0",
+          "timestamp": "2026-06-08T21:41:25.667776+00:00",
+          "retry_count": 0,
+          "result": null,
+          "error": null
+        }
+      ]
+    }
+  },
+  {
+    "name": "9. Workflow Builder",
+    "status": "PASS",
+    "duration": 0.022902727127075195,
+    "inputs": {
+      "workflow_id": "a89e315a-cb1e-4330-9f04-2bbfbc141764"
+    },
+    "outputs": {
+      "final_status": "completed"
+    }
+  },
+  {
+    "name": "10. Analytics",
+    "status": "PASS",
+    "duration": 0.04408001899719238,
+    "inputs": {
+      "job_id": "job_456"
+    },
+    "outputs": {
+      "recruiter_metrics": {
+        "funnel": {
+          "applications": 0,
+          "interviews_scheduled": 0,
+          "interviews_completed": 0,
+          "offers_extended": 0,
+          "hires": 0
+        },
+        "interview_success_rate": 0.0,
+        "acceptance_rate": 0.0,
+        "hire_rate": 0.0
+      },
+      "funnel": {
+        "funnel": {
+          "applications": 0,
+          "interviews_scheduled": 0,
+          "interviews_completed": 0,
+          "offers_extended": 0,
+          "hires": 0
+        },
+        "interview_success_rate": 0.0,
+        "acceptance_rate": 0.0,
+        "hire_rate": 0.0
+      },
+      "ai_perf": {
+        "agent_metrics": [],
+        "system_success_rate": 0.0,
+        "total_agent_tasks": 0
+      }
+    }
+  }
+]

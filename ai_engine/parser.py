@@ -7,7 +7,7 @@ import unicodedata
 from zipfile import BadZipFile, ZipFile
 from xml.etree import ElementTree
 
-SUPPORTED_EXTENSIONS = {".pdf", ".docx"}
+SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".txt"}
 
 class ResumeParser:
     """Unified parser for extracting text from PDF and DOCX resumes."""
@@ -15,12 +15,14 @@ class ResumeParser:
     def parse(self, file_bytes: bytes, filename: str) -> str:
         suffix = Path(filename).suffix.lower()
         if suffix not in SUPPORTED_EXTENSIONS:
-            raise ValueError("الملف لازم يكون PDF أو DOCX")
+            raise ValueError("الملف لازم يكون PDF أو DOCX أو TXT")
 
         if suffix == ".pdf":
             raw_text = self._extract_pdf_text(file_bytes)
-        else:
+        elif suffix == ".docx":
             raw_text = self._extract_docx_text(file_bytes)
+        else:
+            raw_text = file_bytes.decode("utf-8", errors="replace")
 
         cleaned_text = self._clean_extracted_text(raw_text)
         self._validate_extracted_text(cleaned_text, filename)
@@ -86,7 +88,7 @@ class ResumeParser:
 
     def _clean_extracted_text(self, text: str) -> str:
         normalized = unicodedata.normalize("NFKC", text or "")
-        normalized = normalized.replace("\x00", " ").replace("", " ")
+        normalized = normalized.replace("\x00", " ").replace("\xa0", " ")
         cleaned_lines: list[str] = []
         for line in normalized.splitlines():
             if re.match(r"^\s*(%PDF-|PK\x03\x04|xref|endobj|obj\b|stream\b)", line, flags=re.IGNORECASE):

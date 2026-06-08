@@ -10,12 +10,44 @@ from backend.app.schemas import (
     JobInput,
     TopMatchesResponse,
 )
-from backend.app.services.document_parser import extract_text_from_resume
-from backend.app.services.feedback_service import build_feedback
-from backend.app.services.cv_reasoning_engine import recommend_job_titles_from_cv_text
+from ai_engine.parser import ResumeParser
+from ai_engine.reasoning import recommend_job_titles_from_cv_text
 from backend.app.services.matching_service import matching_service
-from backend.app.services.sample_data import SAMPLE_JOBS
-from backend.app.services.skill_extractor import SkillExtractor
+from ai_engine.skills import SkillExtractor
+
+def build_feedback(missing_skills: list[str]) -> str:
+    if not missing_skills:
+        return "Candidate is a strong fit with no major skill gaps."
+    skills_text = ", ".join(missing_skills)
+    return f"Recommended focus areas: {skills_text}."
+
+SAMPLE_JOBS = [
+    {
+        "title": "AI Engineer",
+        "description": "Build NLP models and matching pipelines using embeddings and ranking.",
+        "required_skills": ["python", "nlp", "sentence-transformers", "pytorch", "scikit-learn"],
+    },
+    {
+        "title": "DevOps Engineer",
+        "description": "Manage CI/CD, infrastructure automation, and system reliability.",
+        "required_skills": ["docker", "kubernetes", "terraform", "ci/cd", "linux"],
+    },
+    {
+        "title": "NLP Engineer",
+        "description": "Design text-processing pipelines and language understanding systems.",
+        "required_skills": ["python", "nlp", "transformers", "spacy", "fastapi"],
+    },
+    {
+        "title": "Data Scientist",
+        "description": "Analyze business data and build predictive models for decision support.",
+        "required_skills": ["python", "statistics", "sql", "pandas", "scikit-learn"],
+    },
+    {
+        "title": "Backend Python Developer",
+        "description": "Develop APIs, integrate services, and optimize backend performance.",
+        "required_skills": ["python", "fastapi", "django", "rest api", "postgresql"],
+    },
+]
 
 
 @dataclass
@@ -50,7 +82,7 @@ class AnalysisState:
 async def process_resume_job(state: AnalysisState) -> None:
     try:
         store.push(state.job_id, {"type": "log", "message": "Reading CV..."})
-        text = extract_text_from_resume(state.file_bytes, state.filename)
+        text = ResumeParser().parse(state.file_bytes, state.filename)
         store.push(state.job_id, {"type": "log", "message": "Extracting skills..."})
         if not text.strip():
             raise ValueError("Uploaded file is empty.")
@@ -131,7 +163,7 @@ def rank_jobs_for_candidate(candidate: CandidateProfile, jobs: list[JobInput] | 
 
 
 def rank_jobs_for_resume(file_bytes: bytes, filename: str, jobs: list[JobInput] | None = None) -> TopMatchesResponse:
-    text = extract_text_from_resume(file_bytes, filename)
+    text = ResumeParser().parse(file_bytes, filename)
     if not text.strip():
         raise ValueError("Uploaded file is empty or unreadable.")
 

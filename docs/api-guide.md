@@ -11,6 +11,7 @@ HireMind uses a RESTful API built with FastAPI. All responses are JSON, and all 
 HireMind uses JWT (JSON Web Tokens) for authentication.
 
 ### Login
+
 Get a token by logging in:
 
 ```bash
@@ -20,6 +21,7 @@ curl -X POST "http://localhost:8000/api/auth/login" \
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -33,6 +35,7 @@ curl -X POST "http://localhost:8000/api/auth/login" \
 ```
 
 ### Using the Token
+
 Include the token in subsequent requests:
 
 ```bash
@@ -57,6 +60,7 @@ Content-Type: application/json
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "id": "uuid",
@@ -79,6 +83,7 @@ Content-Type: application/json
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "access_token": "token...",
@@ -94,6 +99,7 @@ Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -116,6 +122,7 @@ file: <binary-file>
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "cv_id": "uuid",
@@ -140,6 +147,7 @@ Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```json
 {
   "cv_id": "uuid",
@@ -160,11 +168,12 @@ Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```json
 {
   "cvs": [
-    {"cv_id": "uuid", "uploaded_at": "2024-01-15T10:30:00Z"},
-    {"cv_id": "uuid2", "uploaded_at": "2024-01-10T14:20:00Z"}
+    { "cv_id": "uuid", "uploaded_at": "2024-01-15T10:30:00Z" },
+    { "cv_id": "uuid2", "uploaded_at": "2024-01-10T14:20:00Z" }
   ]
 }
 ```
@@ -197,6 +206,7 @@ Content-Type: application/json
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "job_id": "uuid",
@@ -215,12 +225,14 @@ Authorization: Bearer {token}
 ```
 
 **Query Parameters:**
+
 - `search` - Search in title and description
 - `location` - Filter by location
 - `skip` - Skip N results (pagination)
 - `limit` - Limit results per page
 
 **Response:**
+
 ```json
 {
   "total": 45,
@@ -243,6 +255,7 @@ Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```json
 {
   "job_id": "uuid",
@@ -291,6 +304,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "matches": [
@@ -299,7 +313,7 @@ Content-Type: application/json
       "name": "Jane Doe",
       "match_score": 92,
       "skill_match": 0.95,
-      "experience_fit": 0.90,
+      "experience_fit": 0.9,
       "skills": ["Python", "FastAPI", "React"]
     }
   ]
@@ -314,6 +328,7 @@ Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```json
 {
   "matches": [
@@ -344,6 +359,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "interview_id": "uuid",
@@ -365,6 +381,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "response": "That's great! Can you tell me more about...",
@@ -384,6 +401,7 @@ Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```json
 {
   "interview_id": "uuid",
@@ -403,6 +421,7 @@ Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```json
 {
   "technical_score": 85,
@@ -416,6 +435,7 @@ Authorization: Bearer {token}
 ## Error Responses
 
 ### 400 Bad Request
+
 ```json
 {
   "detail": [
@@ -429,6 +449,7 @@ Authorization: Bearer {token}
 ```
 
 ### 401 Unauthorized
+
 ```json
 {
   "detail": "Invalid authentication credentials"
@@ -436,6 +457,7 @@ Authorization: Bearer {token}
 ```
 
 ### 403 Forbidden
+
 ```json
 {
   "detail": "Not enough permissions"
@@ -443,6 +465,7 @@ Authorization: Bearer {token}
 ```
 
 ### 404 Not Found
+
 ```json
 {
   "detail": "Resource not found"
@@ -450,6 +473,7 @@ Authorization: Bearer {token}
 ```
 
 ### 500 Internal Server Error
+
 ```json
 {
   "detail": "Internal server error"
@@ -471,6 +495,7 @@ GET /api/jobs?skip=0&limit=10&sort_by=created_at&order=desc
 ```
 
 **Response includes:**
+
 ```json
 {
   "total": 150,

@@ -3,6 +3,7 @@
 ## Overview
 
 This is the React 18 + Tailwind CSS frontend for the HireMind AI-powered recruitment platform. It provides interfaces for:
+
 - **Candidates**: CV upload, job search, applications, interviews
 - **Companies**: Job posting, candidate management, ranking
 
@@ -77,6 +78,7 @@ npm run dev
 Server runs at: **http://localhost:5173**
 
 Features:
+
 - Hot module replacement (HMR)
 - Fast refresh on file changes
 - Tailwind CSS compilation in real-time
@@ -88,6 +90,7 @@ npm run build
 ```
 
 Output:
+
 - Compiled files in `dist/`
 - CSS: ~19.6 KB (gzipped ~4.6 KB)
 - JS: ~236 KB (gzipped ~72 KB)
@@ -103,12 +106,14 @@ Serves the production build locally for testing.
 ## Key Features
 
 ### Authentication
+
 - User registration with role selection (Candidate/Company)
 - Login with JWT tokens
 - Demo credentials for testing
 - Protected routes with role-based access
 
 ### Candidate Portal
+
 1. **Dashboard**
    - Match score summary
    - AI evaluation results
@@ -144,6 +149,7 @@ Serves the production build locally for testing.
    - Application history
 
 ### Company Portal
+
 1. **Dashboard**
    - Total jobs, applicants, top candidates
    - Recent applicants table
@@ -176,6 +182,7 @@ Serves the production build locally for testing.
 ### Tailwind CSS Setup
 
 Configuration:
+
 - **File**: `tailwind.config.js`
 - **Custom Colors**: Brand colors (orange/white theme)
 - **Utilities**: Shadow, border-radius customizations
@@ -183,6 +190,7 @@ Configuration:
 ### Custom Styles
 
 Located in `src/index.css`:
+
 - Tailwind directives (`@tailwind`)
 - Custom utilities (`.glass`)
 - Font imports (Manrope)
@@ -191,6 +199,7 @@ Located in `src/index.css`:
 ### Component Library
 
 **SaaSPrimitives.jsx** - Reusable components:
+
 - `Panel` - Card wrapper
 - `StatCard` - KPI display
 - `Badge` - Tag/label
@@ -206,6 +215,7 @@ Located in `src/index.css`:
 File: `src/api/client.js`
 
 Features:
+
 - Centralized HTTP client
 - Token-based authentication
 - Error handling
@@ -213,29 +223,31 @@ Features:
 
 ### Endpoints Used
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| POST | `/api/auth/register` | User registration |
-| POST | `/api/auth/login` | User login |
-| GET | `/api/auth/me` | Get current user |
-| POST | `/api/cv/upload` | Upload CV |
-| GET | `/api/cv/{id}` | Get CV details |
-| POST | `/api/jobs` | Create job |
-| GET | `/api/jobs` | List jobs |
-| POST | `/api/match/candidates` | Get matched candidates |
-| POST | `/api/chat/send` | Interview message |
+| Method | Endpoint                | Purpose                |
+| ------ | ----------------------- | ---------------------- |
+| POST   | `/api/auth/register`    | User registration      |
+| POST   | `/api/auth/login`       | User login             |
+| GET    | `/api/auth/me`          | Get current user       |
+| POST   | `/api/cv/upload`        | Upload CV              |
+| GET    | `/api/cv/{id}`          | Get CV details         |
+| POST   | `/api/jobs`             | Create job             |
+| GET    | `/api/jobs`             | List jobs              |
+| POST   | `/api/match/candidates` | Get matched candidates |
+| POST   | `/api/chat/send`        | Interview message      |
 
 ## State Management
 
 ### App-level State
 
 Managed in `App.jsx`:
+
 - User authentication state
 - Current user role
 - Application data (jobs, candidates)
 - UI state (modals, loading)
 
 Example:
+
 ```javascript
 const [currentUser, setCurrentUser] = useState(null);
 const [jobs, setJobs] = useState([]);
@@ -268,6 +280,7 @@ const [loading, setLoading] = useState(false);
 ```
 
 Protection:
+
 - PortalGuard wrapper on all protected routes
 - Redirects to login if not authenticated
 - Checks role authorization
@@ -281,6 +294,7 @@ Protection:
 - Image optimization ready
 
 ### Optimization Tips
+
 - Use React.memo for expensive components
 - Lazy load pages with React.lazy()
 - Minimize bundle size
@@ -291,6 +305,7 @@ Protection:
 ### Adding a New Page
 
 1. Create file in `src/pages/MyPage.jsx`:
+
 ```javascript
 export default function MyPage() {
   return <div>Page content</div>;
@@ -298,8 +313,9 @@ export default function MyPage() {
 ```
 
 2. Add route in `App.jsx`:
+
 ```javascript
-<Route path="/my-page" element={<MyPage />} />
+<Route path='/my-page' element={<MyPage />} />
 ```
 
 ### Creating a Component
@@ -311,15 +327,16 @@ export default function MyPage() {
 ### Updating Tailwind Theme
 
 Edit `tailwind.config.js`:
+
 ```javascript
 module.exports = {
   theme: {
     colors: {
       brand: '#FF7A00',
       // ...
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 Then run: `npm run build`
@@ -327,32 +344,41 @@ Then run: `npm run build`
 ## Troubleshooting
 
 ### Issue: Port 5173 in use
+
 **Solution**:
+
 ```bash
 npm run dev -- --port 3000
 ```
 
 ### Issue: API not responding (CORS error)
+
 **Solution**: Check `.env.local`:
+
 ```
 VITE_API_BASE_URL=http://127.0.0.1:8000
 ```
 
 And verify backend is running:
+
 ```bash
 # In backend terminal
 uvicorn backend.app.main:app --reload
 ```
 
 ### Issue: Tailwind styles not applying
+
 **Solution**: Rebuild CSS and restart dev server:
+
 ```bash
 npm run build:css
 npm run dev
 ```
 
 ### Issue: Module not found error
+
 **Solution**: Clear node_modules and reinstall:
+
 ```bash
 rm -r node_modules package-lock.json
 npm install
@@ -377,16 +403,19 @@ npm run test:coverage
 ### Steps
 
 1. **Build**:
+
 ```bash
 npm run build
 ```
 
 2. **Test build**:
+
 ```bash
 npm run preview
 ```
 
 3. **Deploy**:
+
 ```bash
 # Upload dist/ folder to hosting
 # Examples: Vercel, Netlify, GitHub Pages, AWS S3
@@ -395,6 +424,7 @@ npm run preview
 ### Environment Variables for Production
 
 Create `.env.production`:
+
 ```
 VITE_API_BASE_URL=https://api.hiremind.app
 VITE_APP_NAME=HireMind

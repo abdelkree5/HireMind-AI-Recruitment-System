@@ -15,16 +15,19 @@
 ## 🎯 Quick Links
 
 ### For Users
+
 - [Installation Guide](#installation)
 - [How it Works](#how-it-works)
 - [Features Overview](#features)
 
 ### For Developers
+
 - [Project Structure](#structure)
 - [Development Setup](#development)
 - [API Documentation](#api)
 
 ### For Contributors
+
 - [Contributing Guide](./contributing.md)
 - [Code of Conduct](#conduct)
 - [Bug Reports & Features](#issues)
@@ -34,11 +37,13 @@
 ## 🚀 Installation
 
 **Option 1: Docker (Recommended)**
+
 ```bash
 docker-compose up
 ```
 
 **Option 2: Local Setup**
+
 ```bash
 # Backend
 python -m venv .venv

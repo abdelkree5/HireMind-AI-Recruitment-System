@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from backend.app.services.task_service import task_store
+from backend.app.services.auth_service import require_current_user
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_current_user)])
 
 @router.get("/{task_id}")
 async def get_task_status(task_id: str):

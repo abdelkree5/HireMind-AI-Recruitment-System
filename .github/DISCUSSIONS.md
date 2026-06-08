@@ -10,15 +10,19 @@ This is the place for community conversations, ideas, and support!
 ## 📂 Discussion Categories
 
 ### 💡 Ideas & Suggestions
+
 Share your ideas for improving HireMind without opening a formal issue.
 
 ### 🎯 Show & Tell
+
 Showcase what you've built, customizations, or tutorials using HireMind.
 
 ### 🆘 Q&A - Questions & Answers
+
 Ask questions and help others with their HireMind questions.
 
 ### 🗣️ General Discussions
+
 Off-topic discussions, announcements, and general chat.
 
 ---
@@ -26,6 +30,7 @@ Off-topic discussions, announcements, and general chat.
 ## 📋 Guidelines
 
 ### Before Posting
+
 1. Search existing discussions
 2. Check the README and documentation
 3. Is this a bug? Use GitHub Issues instead
@@ -34,15 +39,18 @@ Off-topic discussions, announcements, and general chat.
 ### How to Post Effectively
 
 **Use clear titles:**
+
 - ✅ "How to deploy HireMind to AWS EC2?"
 - ❌ "Help"
 
 **Provide context:**
+
 - What are you trying to do?
 - What have you already tried?
 - What errors are you seeing?
 
 **Share details:**
+
 ```python
 # Share code snippets
 # Include error messages
@@ -50,6 +58,7 @@ Off-topic discussions, announcements, and general chat.
 ```
 
 ### Be Respectful
+
 - Be kind and respectful
 - No spam or self-promotion
 - No harassment or discrimination
@@ -70,6 +79,7 @@ Off-topic discussions, announcements, and general chat.
 ## 🏆 Top Contributors
 
 We recognize and appreciate community members who:
+
 - Help answer questions
 - Share useful resources
 - Provide constructive feedback

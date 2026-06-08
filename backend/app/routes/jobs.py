@@ -1,6 +1,7 @@
 import json
+import os
 
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 
 from backend.app.schemas import (
     CandidateProfile,
@@ -23,9 +24,16 @@ from backend.app.services.analysis_service import (
     rank_jobs_for_candidate,
     rank_jobs_for_resume,
 )
+from backend.app.services.auth_service import require_current_user, require_role
 from backend.app.services.recruitment_service import recruitment_service
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_current_user)])
+MAX_UPLOAD_BYTES = int(os.getenv("HIREMIND_MAX_UPLOAD_BYTES", str(25 * 1024 * 1024)))
+
+
+def _enforce_upload_limit(file_bytes: bytes) -> None:
+    if len(file_bytes) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="Uploaded file exceeds the maximum allowed size.")
 
 
 @router.post("/match", response_model=CandidateMatchResponse)
@@ -54,6 +62,7 @@ async def top_matches_from_cv(
         raise HTTPException(status_code=400, detail="jobs لازم تكون JSON list") from exc
 
     file_bytes = await file.read()
+    _enforce_upload_limit(file_bytes)
     jobs_payload = [job if isinstance(job, JobInput) else JobInput(**job) for job in parsed_jobs]
     return rank_jobs_for_resume(file_bytes, file.filename, jobs_payload or None)
 
@@ -66,6 +75,7 @@ async def top_matches_general_from_cv(
         raise HTTPException(status_code=400, detail="الملف ناقص")
 
     file_bytes = await file.read()
+    _enforce_upload_limit(file_bytes)
     # Always rank against the global job-title library, never posted company jobs.
     return rank_jobs_for_resume(file_bytes, file.filename, None)
 
@@ -75,12 +85,12 @@ def compare_candidates(payload: CandidateComparisonRequest) -> CandidateComparis
     return compare_candidates_for_job(payload.job, payload.candidates)
 
 
-@router.post("/posted", response_model=PostedJob)
+@router.post("/posted", response_model=PostedJob, dependencies=[Depends(require_role("recruiter", "admin"))])
 def create_posted_job(payload: JobInput) -> PostedJob:
     return recruitment_service.create_job(payload)
 
 
-@router.post("/posted/seed-realistic")
+@router.post("/posted/seed-realistic", dependencies=[Depends(require_role("admin"))])
 def seed_realistic_jobs() -> dict:
     outcome = recruitment_service.seed_realistic_jobs()
     created = outcome.get("created", [])
@@ -127,6 +137,7 @@ async def apply_to_posted_job(
 
     try:
         file_bytes = await file.read()
+        _enforce_upload_limit(file_bytes)
         profile = CandidateProfile(
             name=candidate_name,
             headline=candidate_headline,
@@ -149,6 +160,7 @@ async def apply_cv_only(
 
     try:
         file_bytes = await file.read()
+        _enforce_upload_limit(file_bytes)
         confirmed_list = json.loads(confirmed_skills) if confirmed_skills else None
         return recruitment_service.apply_to_job_cv_only(
             job_id, file_bytes, file.filename, confirmed_skills=confirmed_list
@@ -169,12 +181,13 @@ async def pre_match_cv(
 
     try:
         file_bytes = await file.read()
+        _enforce_upload_limit(file_bytes)
         return recruitment_service.pre_match_report(job_id, file_bytes, file.filename)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
-@router.put("/posted/{job_id}", response_model=PostedJob)
+@router.put("/posted/{job_id}", response_model=PostedJob, dependencies=[Depends(require_role("recruiter", "admin"))])
 def update_posted_job(job_id: str, payload: JobInput) -> PostedJob:
     try:
         return recruitment_service.update_job(job_id, payload)
@@ -182,7 +195,7 @@ def update_posted_job(job_id: str, payload: JobInput) -> PostedJob:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
-@router.delete("/posted/{job_id}")
+@router.delete("/posted/{job_id}", dependencies=[Depends(require_role("recruiter", "admin"))])
 def delete_posted_job(job_id: str) -> dict:
     try:
         recruitment_service.delete_job(job_id)
@@ -191,7 +204,7 @@ def delete_posted_job(job_id: str) -> dict:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
-@router.get("/company/dashboard", response_model=CompanyDashboardResponse)
+@router.get("/company/dashboard", response_model=CompanyDashboardResponse, dependencies=[Depends(require_role("recruiter", "admin"))])
 def company_dashboard(
     sort_by: str = "score",
     order: str = "desc",

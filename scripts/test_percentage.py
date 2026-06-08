@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test percentage confidence output."""
 
-from backend.app.services.cv_reasoning_engine import recommend_job_titles_from_cv_text
+from ai_engine.reasoning import recommend_job_titles_from_cv_text
 
 cv = 'Senior DevOps 15+ years. Designed AWS multi-account. Monitoring with Grafana and ELK. Kubernetes, Terraform, CI/CD.'
 
