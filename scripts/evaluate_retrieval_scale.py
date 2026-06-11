@@ -65,7 +65,7 @@ CV_TEMPLATES = {
 }
 
 # Unique candidate names
-CANDIDATE_NAMES = ["Ahmed", "Mohamed", "Sarah", "Omar", "Nour", "Fatima", "Ali", "Hassan", "Zainab", "Mustafa", 
+CANDIDATE_NAMES = ["Ahmed", "Mohamed", "Sarah", "Omar", "Nour", "Fatima", "Ali", "Hassan", "Zainab", "Abdelkreem", 
                    "Youssef", "Laila", "Mariam", "Khaled", "Amr", "Nadia", "Mona", "Sherif", "Tarek", "Hoda",
                    "Bassem", "Dina", "Ehab", "Farida", "Ghada", "Hany", "Iman", "Jamal", "Kamal", "Mai"]
 
@@ -288,7 +288,7 @@ def main():
     report_content.append("- **Hybrid + Re-ranker (MS-Marco)** achieves the highest NDCG@10 and MRR, proving that a Cross-Encoder is highly effective at organizing the top retrieved results by relevance.")
     
     # Save report to artifact directory and project root
-    artifact_path = "C:/Users/MostafaAliMohamedElS/.gemini/antigravity-ide/brain/28253ac2-7e43-4fa4-98b6-db20fa7b93ed/retrieval_evaluation_results.md"
+    artifact_path = "C:/Users/AbdelkreemAliMohamedElS/.gemini/antigravity-ide/brain/28253ac2-7e43-4fa4-98b6-db20fa7b93ed/retrieval_evaluation_results.md"
     project_report_path = os.path.join(PROJECT_ROOT, "retrieval_evaluation_results.md")
     
     for path in [artifact_path, project_report_path]:

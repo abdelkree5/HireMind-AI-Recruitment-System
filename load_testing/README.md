@@ -75,3 +75,12 @@ k6 run -e BASE_URL=http://localhost:8000 -e PERF_TEST_EMAIL=perf+recruiter@hirem
 ## Result templates
 
 Use the report templates in `docs/` after running the tests to populate measured benchmark values and bottleneck analysis.
+
+
+---
+
+## 👨‍💻 Developer
+**Developed by abdelkreem abdelhaleem frahat**
+
+* **LinkedIn:** [abdelkreem abdelhaleem frahat](https://www.linkedin.com/in/abdelkreem-frahat-160g/)
+* **Phone:** 01025453847

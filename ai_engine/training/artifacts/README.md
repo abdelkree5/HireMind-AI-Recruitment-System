@@ -713,3 +713,11 @@ You can finetune this model on your own dataset.
 
 *Provides a way for people who have updates to the Model Card, suggestions, or questions, to contact the Model Card authors.*
 -->
+
+---
+
+## 👨‍💻 Developer
+**Developed by abdelkreem abdelhaleem frahat**
+
+* **LinkedIn:** [abdelkreem abdelhaleem frahat](https://www.linkedin.com/in/abdelkreem-frahat-160g/)
+* **Phone:** 01025453847

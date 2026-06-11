@@ -569,3 +569,12 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 **Made with ❤️ by the HireMind Team**
 
 ⭐ If you find this project helpful, please star it on GitHub!
+
+
+---
+
+## 👨‍💻 Developer
+**Developed by abdelkreem abdelhaleem frahat**
+
+* **LinkedIn:** [abdelkreem abdelhaleem frahat](https://www.linkedin.com/in/abdelkreem-frahat-160g/)
+* **Phone:** 01025453847

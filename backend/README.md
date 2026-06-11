@@ -272,3 +272,12 @@ MIT License - See [LICENSE](../LICENSE) for details.
 ---
 
 **Last Updated**: April 2024
+
+
+---
+
+## 👨‍💻 Developer
+**Developed by abdelkreem abdelhaleem frahat**
+
+* **LinkedIn:** [abdelkreem abdelhaleem frahat](https://www.linkedin.com/in/abdelkreem-frahat-160g/)
+* **Phone:** 01025453847

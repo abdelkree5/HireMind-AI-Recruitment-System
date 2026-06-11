@@ -496,7 +496,7 @@ def main():
             )
             
     # Write report to artifact directory
-    artifact_path = "C:/Users/MostafaAliMohamedElS/.gemini/antigravity-ide/brain/28253ac2-7e43-4fa4-98b6-db20fa7b93ed/recruitment_benchmark_results.md"
+    artifact_path = "C:/Users/AbdelkreemAliMohamedElS/.gemini/antigravity-ide/brain/28253ac2-7e43-4fa4-98b6-db20fa7b93ed/recruitment_benchmark_results.md"
     project_report_path = os.path.join(PROJECT_ROOT, "recruitment_benchmark_results.md")
     
     for path in [artifact_path, project_report_path]:

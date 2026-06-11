@@ -54,3 +54,12 @@ python -m ai_engine.training.pipeline
   - `ai_engine/training/data/raw/resumes.jsonl`
   - `ai_engine/training/data/raw/jobs.jsonl`
 - كل سطر في JSONL عبارة عن object فيه نص واضح.
+
+
+---
+
+## 👨‍💻 Developer
+**Developed by abdelkreem abdelhaleem frahat**
+
+* **LinkedIn:** [abdelkreem abdelhaleem frahat](https://www.linkedin.com/in/abdelkreem-frahat-160g/)
+* **Phone:** 01025453847

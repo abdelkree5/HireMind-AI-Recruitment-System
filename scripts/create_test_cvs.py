@@ -42,9 +42,9 @@ cvs = {
         ]
     },
     "nour_mobile.docx": {
-        "name": "Nour Mostafa",
+        "name": "Nour Abdelkreem",
         "sections": [
-            ("", "Nour Mostafa\nMobile App Developer (Flutter)\nEmail: nour@example.com"),
+            ("", "Nour Abdelkreem\nMobile App Developer (Flutter)\nEmail: nour@example.com"),
             ("Objective", "Mobile application developer specialized in Flutter, striving to develop engaging applications for both Android and iOS platforms."),
             ("Experience", "Mobile Developer | Appify\n- Developed cross-platform applications using the Flutter framework and Dart.\n- Integrated applications with Firebase databases.\n- Managed application state using Provider and Riverpod.\n- Deployed applications to Google Play and the App Store."),
             ("Skills", "Flutter, Dart, Firebase, RESTful APIs, UI/UX, Git"),
